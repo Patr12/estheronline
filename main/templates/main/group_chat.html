@@ -1,0 +1,261 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="chat-container">
+    <!-- Group Info Sidebar -->
+    <div class="chat-sidebar">
+        <div class="sidebar-header p-3 bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ group.name }}</h5>
+                <a href="{% url 'chat-home' %}" class="btn btn-light btn-sm">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Group Image and Info -->
+        <div class="text-center p-3 border-bottom">
+            {% if group.image %}
+                <img src="{{ group.image.url }}" alt="{{ group.name }}" class="img-thumbnail rounded-circle mb-2" style="width: 120px; height: 120px;">
+            {% else %}
+                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-2 mx-auto" style="width: 120px; height: 120px;">
+                    <i class="fas fa-users fa-3x text-muted"></i>
+                </div>
+            {% endif %}
+            <h6>{{ group.name }}</h6>
+            <p class="small text-muted">{{ group.description|default:"No description" }}</p>
+            
+            {% if membership.role == 'ADMIN' %}
+                <a href="{% url 'manage-group' group.id %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-cog"></i> Manage Group
+                </a>
+            {% endif %}
+        </div>
+        
+        <!-- Group Members -->
+        <div class="p-3">
+            <h6 class="text-muted mb-3">Members ({{ group.memberships.count }})</h6>
+            <div class="member-list">
+                {% for member in group.memberships.all %}
+                <div class="member-item d-flex align-items-center mb-2">
+                    <img src="{{ member.user.profile.image.url }}" alt="{{ member.user.get_full_name }}" class="rounded-circle me-2" width="40" height="40">
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between">
+                            <span>{{ member.user.get_full_name }}</span>
+                            {% if member.role == 'ADMIN' %}
+                                <span class="badge bg-primary">Admin</span>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">@{{ member.user.username }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Chat Area -->
+    <div class="chat-main">
+        <!-- Chat Header -->
+        <div class="chat-header p-3 bg-light border-bottom">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ group.name }}</h5>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="groupActions" data-bs-toggle="dropdown">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'manage-group' group.id %}"><i class="fas fa-cog me-2"></i>Group Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#leaveGroupModal" data-bs-toggle="modal"><i class="fas fa-sign-out-alt me-2"></i>Leave Group</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Messages Container -->
+        <div class="chat-messages p-3">
+            {% for message in messages %}
+            <div class="message mb-3 {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                <div class="message-sender d-flex align-items-center mb-1">
+                    <img src="{{ message.sender.profile.image.url }}" alt="{{ message.sender.get_full_name }}" class="rounded-circle me-2" width="30" height="30">
+                    <strong>{{ message.sender.get_full_name }}</strong>
+                    <small class="text-muted ms-2">{{ message.created_at|date:"h:i A" }}</small>
+                </div>
+                <div class="message-content">
+                    {% if message.file %}
+                        {% if message.file.url|lower|slice:'-4:' == '.jpg' or message.file.url|lower|slice:'-5:' == '.jpeg' or message.file.url|lower|slice:'-4:' == '.png' or message.file.url|lower|slice:'-4:' == '.gif' %}
+                            <img src="{{ message.file.url }}" class="img-fluid rounded mb-2" style="max-height: 300px;">
+                        {% else %}
+                            <a href="{{ message.file.url }}" class="d-flex align-items-center text-decoration-none" download>
+                                <i class="fas fa-file-download fa-2x me-2 text-primary"></i>
+                                <div>
+                                    <div>{{ message.file.name|cut:"group_files/" }}</div>
+                                    <small class="text-muted">{{ message.file.size|filesizeformat }}</small>
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    <p class="mb-0">{{ message.content }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-5 text-muted">
+                <i class="fas fa-comments fa-3x mb-3"></i>
+                <p>No messages yet. Start the conversation!</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Message Input Form -->
+        <div class="message-form p-3 border-top">
+            <form method="post" enctype="multipart/form-data" id="messageForm">
+                {% csrf_token %}
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 me-2 position-relative">
+                        {{ form.content }}
+                        <div class="file-input-wrapper">
+                            <label for="id_file" class="btn btn-sm btn-outline-secondary position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);">
+                                <i class="fas fa-paperclip"></i>
+                            </label>
+                            {{ form.file }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Leave Group Modal -->
+<div class="modal fade" id="leaveGroupModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Leave Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- In the leave group modal section -->
+<div class="modal-body">
+    <p>Are you sure you want to leave "{{ group.name }}"? You won't be able to access the group chat anymore.</p>
+    {% if membership.role == 'ADMIN' and admin_count == 1 %}
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        You're the only admin. If you leave, the group will be deleted.
+    </div>
+    {% endif %}
+</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" action="{% url 'leave-group' group.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Leave Group</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chat-container {
+        display: flex;
+        height: calc(100vh - 60px);
+        background: #fff;
+    }
+    
+    .chat-sidebar {
+        width: 300px;
+        border-right: 1px solid #eee;
+        overflow-y: auto;
+        background: #f8f9fa;
+    }
+    
+    .chat-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
+    
+    .message {
+        padding: 10px 15px;
+        border-radius: 15px;
+        max-width: 70%;
+        word-wrap: break-word;
+    }
+    
+    .message.sent {
+        margin-left: auto;
+        background: #4a6cf7;
+        color: white;
+        border-radius: 15px 15px 0 15px;
+    }
+    
+    .message.received {
+        margin-right: auto;
+        background: #f1f1f1;
+        border-radius: 15px 15px 15px 0;
+    }
+    
+    .message-content img {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+    
+    .file-input-wrapper input[type="file"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+    
+    .member-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .member-item {
+        padding: 5px;
+        border-radius: 5px;
+    }
+    
+    .member-item:hover {
+        background-color: #e9ecef;
+    }
+</style>
+
+<script>
+    // Auto-scroll to bottom of messages
+    window.onload = function() {
+        const messagesContainer = document.querySelector('.chat-messages');
+        if (messagesContainer) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // Focus on message input
+        const messageInput = document.getElementById('id_content');
+        if (messageInput) {
+            messageInput.focus();
+        }
+    };
+    
+    // Handle file input change
+    document.getElementById('id_file').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'No file chosen';
+        console.log('File selected:', fileName);
+    });
+</script>
+{% endblock %}

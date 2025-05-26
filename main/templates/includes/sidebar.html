@@ -1,0 +1,38 @@
+<!-- templates/includes/sidebar.html -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h4>{{ church_name }}</h4>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'dashboard' %}">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'schedule' %}">
+                <i class="fas fa-calendar-alt"></i> Service Schedule
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'teachings' %}">
+                <i class="fas fa-book"></i> Teachings
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'events' %}">
+                <i class="fas fa-calendar-check"></i> Events
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'donation' %}">
+                <i class="fas fa-donate"></i> Donations
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog' %}">
+                <i class="fas fa-blog"></i> Blog
+            </a>
+        </li>
+    </ul>
+</div>

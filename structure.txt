@@ -1,0 +1,23 @@
+main/
+│
+├── models.py
+├── views.py
+├── urls.py
+├── templates/
+│   └── main/
+│       ├── home.html
+│       ├── teachings.html
+│       ├── schedule.html
+│       ├── donation.html
+│       ├── events.html
+│       ├── blog.html
+│       └── register.html
+├── static/
+│   └── main/
+│       ├── css/
+│       ├── js/
+│       └── images/
+pip install xhtml2pdf pandas openpyxl
+pip install django pillow
+pip install channels channels-redis
+pip install django-widget-tweaks

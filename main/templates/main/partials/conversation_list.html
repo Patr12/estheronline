@@ -1,0 +1,23 @@
+{# main/templates/main/partials/conversation_list.html #}
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Conversations</h5>
+    </div>
+    <div class="list-group list-group-flush">
+        {% for conv in conversations %}
+        <a href="{% url 'chat-detail' conv.user.id %}" 
+           class="list-group-item list-group-item-action {% if not conv.last_message.is_read and conv.last_message.sender != request.user %}unread{% endif %}">
+            <div class="d-flex justify-content-between">
+                <strong>{{ conv.user.get_full_name }}</strong>
+                <small class="text-muted">{{ conv.last_message.created_at|timesince }} ago</small>
+            </div>
+            <p class="mb-0 text-truncate">{{ conv.last_message.content }}</p>
+            {% if conv.unread_count > 0 %}
+            <span class="badge bg-danger rounded-pill">{{ conv.unread_count }}</span>
+            {% endif %}
+        </a>
+        {% empty %}
+        <div class="list-group-item text-muted">No conversations yet</div>
+        {% endfor %}
+    </div>
+</div>

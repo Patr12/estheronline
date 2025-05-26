@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<!-- BLOG PAGE -->
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Blog za Kiroho</h2>
+  <div class="row">
+    {% for b in blogs %}
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ b.title }}</h5>
+          <p class="card-text">{{ b.content|truncatechars:100 }}</p>
+        </div>
+        <div class="card-footer text-muted text-end">
+          {{ b.published_at|date:"M d, Y" }}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">Hakuna blogu zilizopatikana kwa sasa.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Optional scripts -->
+{% endblock %}

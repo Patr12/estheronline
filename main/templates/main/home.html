@@ -1,0 +1,473 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
+
+{% block content %}
+<!-- Updated Hero Section HTML -->
+<section class="hero-section">
+    <div class="hero-slideshow">
+        <div class="hero-slide active"></div>
+        <div class="hero-slide"></div>
+        <div class="hero-slide"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-lg-8 mx-auto text-center text-white">
+                <h1 class="display-3 fw-bold mb-4">Welcome to Mountain of Fire Church</h1>
+                <p class="lead mb-5">A place of worship, fellowship and spiritual growth</p>
+                <div class="hero-buttons d-flex justify-content-center gap-3">
+                    <a href="{% url 'schedule' %}" class="btn btn-primary btn-lg px-4 rounded-pill shadow">
+                        <i class="fas fa-calendar-alt me-2"></i> Service Times
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                        <i class="fas fa-user-plus me-2"></i> Join Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-down">
+        <i class="fas fa-chevron-down"></i>
+    </div>
+</section>
+
+<!-- Upcoming Events Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title position-relative d-inline-block">Upcoming Events</h2>
+            <p class="section-subtitle text-muted">Join us for these special gatherings</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for event in upcoming_events|slice:":3" %}
+            <div class="col-md-4">
+                <div class="card event-card h-100 border-0 shadow-sm overflow-hidden transition-all">
+                    <div class="event-date-ribbon bg-primary text-white">
+                        <span class="month">{{ event.date|date:"M" }}</span>
+                        <span class="day">{{ event.date|date:"d" }}</span>
+                    </div>
+                    <div class="card-img-container">
+                        <img src="{% static 'main/images/event-default.jpg' %}" class="card-img-top" alt="{{ event.title }}">
+                        <div class="img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text text-muted small">
+                            <i class="fas fa-clock me-2"></i>{{ event.date|date:"l, F j, Y" }} at {{ event.date|time }}
+                        </p>
+                        <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
+                        <a href="{% url 'events' %}" class="btn btn-sm btn-outline-primary rounded-pill">View Details</a>
+                        <span class="badge bg-secondary">{{ event.event_type }}</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <div class="alert alert-info">No upcoming events scheduled. Check back later!</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'events' %}" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                View All Events <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Service Times Section with Countdown -->
+<section class="py-5 position-relative services">
+    <div class="section-overlay"></div>
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="section-header mb-4">
+                    <h2 class="section-title text-white">Service Schedule</h2>
+                    <p class="section-subtitle text-light">Join us for worship and fellowship</p>
+                </div>
+                
+                <div class="service-times bg-white p-4 rounded shadow">
+                    {% for schedule in schedules %}
+                    <div class="service-time-item d-flex mb-3 pb-3 border-bottom">
+                        <div class="service-day me-4 text-center">
+                            <div class="day-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+                                {{ schedule.day|slice:":3" }}
+                            </div>
+                        </div>
+                        <div class="service-details flex-grow-1">
+                            <h6 class="mb-1">{{ schedule.title }}</h6>
+                            <p class="text-muted mb-0 small"><i class="fas fa-clock me-2"></i>{{ schedule.time }}</p>
+                            <p class="text-muted mb-0 small"><i class="fas fa-user me-2"></i>{{ schedule.speaker|default:"All are welcome" }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <a href="{% url 'schedule' %}" class="btn btn-outline-light mt-3 rounded-pill">
+                    Full Schedule <i class="fas fa-calendar-alt ms-2"></i>
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <div class="next-service-card bg-white p-4 rounded shadow">
+                    <h4 class="mb-4 text-center">Next Service In:</h4>
+                    <div class="countdown-container text-center mb-4">
+                        <div class="countdown-timer d-flex justify-content-center">
+                            <div class="countdown-item me-3">
+                                <div class="countdown-number" id="days">00</div>
+                                <div class="countdown-label">Days</div>
+                            </div>
+                            <div class="countdown-item me-3">
+                                <div class="countdown-number" id="hours">00</div>
+                                <div class="countdown-label">Hours</div>
+                            </div>
+                            <div class="countdown-item me-3">
+                                <div class="countdown-number" id="minutes">00</div>
+                                <div class="countdown-label">Minutes</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-number" id="seconds">00</div>
+                                <div class="countdown-label">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm">
+                        <iframe src="https://www.youtube.com/embed/watch?v=klkEKMTe3OY" allowfullscreen></iframe>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="fas fa-video me-1"></i> Watch Live
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-map-marker-alt me-1"></i> Get Directions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Sermons Section with Tabs -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">Recent Teachings</h2>
+            <p class="section-subtitle text-muted">Listen to our latest messages</p>
+        </div>
+        
+        <ul class="nav nav-tabs justify-content-center mb-4" id="sermonTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button">All</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="video-tab" data-bs-toggle="tab" data-bs-target="#video" type="button">Videos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="audio-tab" data-bs-toggle="tab" data-bs-target="#audio" type="button">Audio</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="text-tab" data-bs-toggle="tab" data-bs-target="#text" type="button">Articles</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="sermonTabsContent">
+            <div class="tab-pane fade show active" id="all" role="tabpanel">
+                <div class="row g-4">
+                    {% for teaching in recent_teachings|slice:":3" %}
+                    <div class="col-md-4">
+                        {% include 'main/partials/teaching_card.html' with teaching=teaching %}
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-4">
+                        <div class="alert alert-info">No teachings available yet. Check back soon!</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="video" role="tabpanel">
+                <!-- Video content would go here -->
+            </div>
+            <!-- Other tab panes -->
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'teachings' %}" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                Browse All Teachings <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section with Testimonial -->
+<section class="py-5 bg-primary text-white position-relative overflow-hidden">
+    <div class="cta-pattern"></div>
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
+                <h2 class="mb-3">Join Us This Sunday</h2>
+                <p class="lead mb-0">Experience the power of worship and the word of God</p>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end gap-3">
+                    <a href="{% url 'schedule' %}" class="btn btn-light btn-lg px-4 rounded-pill shadow">
+                        <i class="fas fa-directions me-2"></i> Get Directions
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4 rounded-pill">
+                        <i class="fas fa-user-plus me-2"></i> Become a Member
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card bg-white text-dark p-4 rounded shadow mt-5">
+            <div class="d-flex align-items-center mb-3">
+                <img src="{% static 'main/images/church3.jpg' %}" class="rounded-circle me-3" width="60" alt="Member testimonial">
+                <div>
+                    <h5 class="mb-0">John M.</h5>
+                    <p class="text-muted small mb-0">Member since 2018</p>
+                </div>
+            </div>
+            <blockquote class="mb-0">
+                "Mountain of Fire Church has transformed my spiritual life. The teachings are powerful and the community is welcoming. I've found my spiritual home here."
+            </blockquote>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Section with Featured Post -->
+<section class="py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title">From Our Blog</h2>
+            <p class="section-subtitle text-muted">Latest articles and devotionals</p>
+        </div>
+        
+        {% if featured_blog %}
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card featured-blog-card border-0 shadow-sm overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <img src="{% static 'main/images/bog1.jpg' %}" class="img-fluid h-100" alt="{{ featured_blog.title }}" style="object-fit: cover;">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body p-4 p-lg-5">
+                                <div class="blog-meta mb-3">
+                                    <span class="badge bg-primary me-2">Featured</span>
+                                    <span class="text-muted small">
+                                        <i class="fas fa-calendar me-1"></i> {{ featured_blog.published_at|date:"M d, Y" }}
+                                    </span>
+                                </div>
+                                <h3 class="card-title">{{ featured_blog.title }}</h3>
+                                <p class="card-text">{{ featured_blog.content|truncatewords:30 }}</p>
+                                <a href="#" class="btn btn-primary rounded-pill">Read Full Article</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="row g-4">
+            {% for blog in recent_blogs|slice:":3" %}
+            <div class="col-md-4">
+                <div class="card blog-card h-100 border-0 shadow-sm transition-all">
+                    <div class="card-img-container">
+                        <img src="{% static 'main/images/bog2.jpg' %}" class="card-img-top" alt="{{ blog.title }}">
+                        <div class="img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="blog-meta mb-2 d-flex justify-content-between">
+                            <span class="text-muted small">
+                                <i class="fas fa-calendar me-1"></i> {{ blog.published_at|date:"M d, Y" }}
+                            </span>
+                            <span class="badge bg-secondary">{{ blog.category }}</span>
+                        </div>
+                        <h5 class="card-title">{{ blog.title }}</h5>
+                        <p class="card-text">{{ blog.content|truncatewords:25 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-4">
+                <div class="alert alert-info">No blog posts available yet. Check back soon!</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'blog' %}" class="btn btn-primary px-4 rounded-pill shadow-sm">
+                View All Articles <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Donation Section with Progress Bar -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="{% static 'main/images/church3.jpg' %}" alt="Giving" class="img-fluid rounded shadow">
+            </div>
+            <div class="col-lg-6">
+                <div class="section-header mb-4">
+                    <h2 class="section-title">Support Our Ministry</h2>
+                    <p class="section-subtitle text-muted">Your generosity makes a difference</p>
+                </div>
+                
+                <p class="mb-4">We are grateful for your faithful giving which enables us to continue our mission of spreading the gospel and serving our community.</p>
+                
+                <div class="giving-progress mb-4">
+                    <h5 class="d-flex justify-content-between">
+                        <span>Building Fund</span>
+                        <span>75%</span>
+                    </h5>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="text-muted small mt-2">Raised: TZS 15,000,000 of TZS 20,000,000</p>
+                </div>
+                
+                <div class="giving-options mb-4">
+                    <h5 class="mb-3">Ways to Give:</h5>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <i class="fas fa-mobile-alt fa-2x text-primary me-3"></i>
+                                <div>
+                                    <h6 class="mb-0">Mobile Money</h6>
+                                    <small class="text-muted">M-Pesa, Tigo Pesa, Airtel Money</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <i class="fas fa-university fa-2x text-primary me-3"></i>
+                                <div>
+                                    <h6 class="mb-0">Bank Transfer</h6>
+                                    <small class="text-muted">CRDB, NMB, NBC</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <i class="fas fa-credit-card fa-2x text-primary me-3"></i>
+                                <div>
+                                    <h6 class="mb-0">Credit Card</h6>
+                                    <small class="text-muted">Visa, Mastercard</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <i class="fas fa-hand-holding-usd fa-2x text-primary me-3"></i>
+                                <div>
+                                    <h6 class="mb-0">In Person</h6>
+                                    <small class="text-muted">At our church office</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="{% url 'donation' %}" class="btn btn-primary btn-lg w-100 rounded-pill shadow">
+                    <i class="fas fa-donate me-2"></i> Give Online Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-4">Stay Connected</h2>
+                <p class="lead mb-5">Subscribe to our newsletter for weekly updates and spiritual nourishment</p>
+                
+                <form class="newsletter-form">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control form-control-lg" placeholder="Your email address" required>
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="consentCheck" required>
+                        <label class="form-check-label small" for="consentCheck">
+                            I agree to receive emails from Mountain of Fire Church
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Include any additional JavaScript needed for this page -->
+<script>
+    // Countdown timer for next service
+    function updateCountdown() {
+        // Set the date we're counting down to (next Sunday at 10:00 AM)
+        const now = new Date();
+        const nextSunday = new Date();
+        nextSunday.setDate(now.getDate() + (7 - now.getDay()) % 7);
+        nextSunday.setHours(10, 0, 0, 0);
+        
+        // If today is Sunday and it's before 10 AM
+        if (now.getDay() === 0 && now.getHours() < 10) {
+            nextSunday.setDate(now.getDate());
+        }
+        
+        const distance = nextSunday - now;
+        
+        // Time calculations
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Display the result
+        document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+        document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+        document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+        document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+        
+        // If the countdown is finished
+        if (distance < 0) {
+            clearInterval(countdownTimer);
+            document.getElementById("days").innerHTML = "00";
+            document.getElementById("hours").innerHTML = "00";
+            document.getElementById("minutes").innerHTML = "00";
+            document.getElementById("seconds").innerHTML = "00";
+        }
+    }
+    
+    // Update the countdown every 1 second
+    updateCountdown();
+    const countdownTimer = setInterval(updateCountdown, 1000);
+    
+    // Hero slideshow animation
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    
+    function changeSlide() {
+        slides.forEach(slide => slide.classList.remove('active'));
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }
+    
+    setInterval(changeSlide, 5000);
+</script>
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">Manage Group: {{ group.name }}</h3>
+                        <a href="{% url 'group-chat' group.id %}" class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Chat
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Group Information Section -->
+                    <div class="mb-4 p-3 border rounded">
+                        <h4 class="mb-3">Group Information</h4>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="update_group">
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="group-image-container text-center">
+                                        {% if group.image %}
+                                            <img src="{{ group.image.url }}" alt="{{ group.name }}" class="img-thumbnail mb-2" style="max-width: 200px;">
+                                        {% else %}
+                                            <div class="no-image bg-light d-flex align-items-center justify-content-center" style="width: 200px; height: 200px;">
+                                                <i class="fas fa-users fa-3x text-muted"></i>
+                                            </div>
+                                        {% endif %}
+                                        {{ form.image }}
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="mb-3">
+                                        <label class="form-label">Group Name</label>
+                                        {{ form.name }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        {{ form.description }}
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-1"></i> Update Group
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Members Management Section -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4>Group Members</h4>
+                            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+                                <i class="fas fa-user-plus me-1"></i> Add Members
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Member</th>
+                                        <th>Role</th>
+                                        <th>Joined</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for member in members %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{ member.user.profile.image.url }}" alt="{{ member.user.get_full_name }}" 
+                                                     class="rounded-circle me-2" width="40" height="40">
+                                                <div>
+                                                    <strong>{{ member.user.get_full_name }}</strong>
+                                                    <div class="text-muted small">@{{ member.user.username }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge {% if member.role == 'ADMIN' %}bg-primary{% else %}bg-secondary{% endif %}">
+                                                {{ member.get_role_display }}
+                                            </span>
+                                        </td>
+                                        <td>{{ member.joined_at|date:"M d, Y" }}</td>
+                                        <td>
+                                            {% if member.role == 'ADMIN' and member.user != request.user %}
+                                                <form method="post" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="action" value="demote_to_member">
+                                                    <input type="hidden" name="user_id" value="{{ member.user.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-warning" title="Demote to Member">
+                                                        <i class="fas fa-arrow-down"></i>
+                                                    </button>
+                                                </form>
+                                            {% elif member.role == 'MEMBER' %}
+                                                <form method="post" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="action" value="promote_to_admin">
+                                                    <input type="hidden" name="user_id" value="{{ member.user.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-success" title="Promote to Admin">
+                                                        <i class="fas fa-arrow-up"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                            
+                                            {% if member.user != request.user %}
+                                                <form method="post" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="action" value="remove_member">
+                                                    <input type="hidden" name="user_id" value="{{ member.user.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Remove from Group">
+                                                        <i class="fas fa-user-minus"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Member Modal -->
+<div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMemberModalLabel">Add Members to Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_members">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Select Members to Add</label>
+                        <select name="new_members" class="form-select" multiple style="height: 200px;">
+                            {% for user in non_members %}
+                            <option value="{{ user.id }}">{{ user.get_full_name }} (@{{ user.username }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Members</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+    
+    .no-image {
+        border-radius: 8px;
+        border: 1px dashed #ccc;
+    }
+    
+    select[multiple] {
+        min-height: 150px;
+    }
+    
+    .table td {
+        vertical-align: middle;
+    }
+    
+    .badge {
+        font-size: 0.85em;
+        padding: 0.35em 0.65em;
+    }
+</style>
+{% endblock %}

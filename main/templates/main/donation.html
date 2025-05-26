@@ -1,0 +1,94 @@
+<!-- templates/main/donation.html -->
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Make a Donation</h4>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    <form method="POST" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" required>
+                            <div class="invalid-feedback">
+                                Please provide your full name.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="donation_type" class="form-label">Donation Type</label>
+                            <select class="form-select" id="donation_type" name="donation_type" required>
+                                <option value="" selected disabled>Select donation type</option>
+                                <option value="Tithe">Tithe</option>
+                                <option value="Offering">Offering</option>
+                                <option value="Building Fund">Building Fund</option>
+                                <option value="Missions">Missions</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a donation type.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount (TZS)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">TZS</span>
+                                <input type="number" class="form-control" id="amount" name="amount" min="1000" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid amount (minimum 1000 TZS).
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="recurring" name="recurring">
+                                <label class="form-check-label" for="recurring">
+                                    Make this a recurring donation (monthly)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                <i class="fas fa-donate"></i> Submit Donation
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="mt-4">
+                        <h5>Other Payment Methods</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-outline-dark">
+                                <i class="fab fa-mpesa"></i> M-Pesa
+                            </button>
+                            <button class="btn btn-outline-dark">
+                                <i class="fas fa-mobile-alt"></i> Tigo Pesa
+                            </button>
+                            <button class="btn btn-outline-dark">
+                                <i class="fas fa-money-bill-wave"></i> Airtel Money
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

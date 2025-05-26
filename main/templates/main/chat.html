@@ -1,0 +1,214 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="chat-container">
+    <!-- Sidebar -->
+    <div class="chat-sidebar">
+        <div class="sidebar-header p-3">
+            <h5>Chats</h5>
+            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+                <i class="fas fa-users"></i> New Group
+            </button>
+        </div>
+        
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="chatTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="private-tab" data-bs-toggle="tab" data-bs-target="#private" type="button">
+                    Private
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups" type="button">
+                    Groups
+                </button>
+            </li>
+        </ul>
+        
+        <!-- Tab content -->
+        <div class="tab-content p-2">
+            <!-- Private chats -->
+            <div class="tab-pane fade show active" id="private" role="tabpanel">
+                {% for conv in conversations %}
+                <a href="{% url 'chat-detail' conv.user.id %}" class="conversation-item {% if not conv.last_message.is_read and conv.last_message.sender != request.user %}unread{% endif %}">
+                    <div class="avatar">
+                        <img src="{{ conv.user.profile.image.url }}" alt="{{ conv.user.get_full_name }}">
+                    </div>
+                    <div class="conversation-info">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ conv.user.get_full_name }}</strong>
+                            <small>{{ conv.last_message.created_at|timesince }} ago</small>
+                        </div>
+                        <p class="text-truncate">
+                            {% if conv.last_message.sender == request.user %}
+                            You: {{ conv.last_message.content|truncatechars:30 }}
+                            {% else %}
+                            {{ conv.last_message.content|truncatechars:30 }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% if conv.unread_count > 0 %}
+                    <span class="badge bg-primary rounded-pill">{{ conv.unread_count }}</span>
+                    {% endif %}
+                </a>
+                {% empty %}
+                <p class="text-muted">No conversations yet</p>
+                {% endfor %}
+            </div>
+            
+            <!-- Group chats -->
+            <div class="tab-pane fade" id="groups" role="tabpanel">
+                {% for group in groups %}
+                <a href="{% url 'group-chat' group.id %}" class="conversation-item">
+                    <div class="avatar">
+                        <img src="{{ group.image.url }}" alt="{{ group.name }}">
+                    </div>
+                    <div class="conversation-info">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ group.name }}</strong>
+                            <small>{{ group.last_message.created_at|timesince }} ago</small>
+                        </div>
+                        <p class="text-truncate">
+                            {{ group.last_message.sender.get_full_name }}: {{ group.last_message.content|truncatechars:30 }}
+                        </p>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="text-muted">No group chats yet</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main chat area -->
+    <div class="chat-main">
+        <div class="chat-header p-3">
+            <h5>Select a conversation to start chatting</h5>
+        </div>
+        <div class="chat-placeholder">
+            <i class="fas fa-comments fa-4x"></i>
+            <p>Select a conversation from the sidebar</p>
+        </div>
+    </div>
+</div>
+
+<!-- Create Group Modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'create-group' %}" enctype="multipart/form-data">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    {{ group_form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create Group</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    // Real-time message checking
+function checkForNewMessages() {
+    fetch('/api/check-messages/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.unread > 0) {
+                document.getElementById('unread-count').textContent = data.unread;
+                document.getElementById('unread-count').style.display = 'inline-block';
+            } else {
+                document.getElementById('unread-count').style.display = 'none';
+            }
+        });
+}
+
+// Check every 30 seconds
+setInterval(checkForNewMessages, 30000);
+
+// WebSocket connection for real-time chat
+const chatSocket = new WebSocket(
+    'ws://' + window.location.host + '/ws/chat/'
+);
+
+chatSocket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    // Handle incoming messages
+    if (data.type === 'message') {
+        addMessageToChat(data.message);
+    }
+};
+
+function sendMessage() {
+    const messageInput = document.getElementById('message-input');
+    const message = messageInput.value.trim();
+    
+    if (message) {
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'sender': '{{ request.user.username }}'
+        }));
+        messageInput.value = '';
+    }
+}
+
+function addMessageToChat(message) {
+    const messagesContainer = document.querySelector('.chat-messages');
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    messageElement.innerHTML = `
+        <div class="message-content">${message.content}</div>
+        <div class="message-time">${message.timestamp}</div>
+    `;
+    messagesContainer.appendChild(messageElement);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+</script>
+
+<style>
+    /* Add your CSS styles here */
+    .conversation-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 5px;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .conversation-item:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .conversation-item.unread {
+        background-color: #e6f2ff;
+        font-weight: bold;
+    }
+    
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+    
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .conversation-info {
+        flex: 1;
+        min-width: 0;
+    }
+</style>
+{% endblock %}

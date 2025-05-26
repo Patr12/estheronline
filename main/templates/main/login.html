@@ -1,0 +1,233 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    /* Msingi wa Style */
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Poppins', sans-serif;
+        padding: 20px;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        padding: 40px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .login-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .logo-container {
+        margin-bottom: 30px;
+    }
+
+    .login-logo {
+        width: 80px;
+        height: auto;
+        margin-bottom: 15px;
+    }
+
+    .login-card h2 {
+        color: #333;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-with-icon i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #777;
+    }
+
+    .input-with-icon input {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
+
+    .input-with-icon input:focus {
+        border-color: #4a6cf7;
+        box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+        outline: none;
+    }
+
+    .form-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        font-size: 14px;
+    }
+
+    .remember-me {
+        display: flex;
+        align-items: center;
+        color: #555;
+    }
+
+    .remember-me input {
+        margin-right: 8px;
+    }
+
+    .forgot-password {
+        color: #4a6cf7;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .forgot-password:hover {
+        color: #3a5bd9;
+        text-decoration: underline;
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 12px;
+        background: #4a6cf7;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-bottom: 20px;
+    }
+
+    .login-btn:hover {
+        background: #3a5bd9;
+    }
+
+    .login-btn i {
+        margin-right: 8px;
+    }
+
+    .signup-link {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .signup-link a {
+        color: #4a6cf7;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .signup-link a:hover {
+        color: #3a5bd9;
+        text-decoration: underline;
+    }
+
+    .alert {
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .alert-error {
+        background: #fde8e8;
+        color: #c53030;
+        border: 1px solid #f56565;
+    }
+</style>
+<link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
+<div class="login-container">
+    <div class="login-card">
+        <!-- Logo ya System (Badilisha src kwa path ya logo yako) -->
+        <div class="logo-container">
+            <img src="{% static 'main/images/WhatsApp Image 2025-05-01 at 13.12.15.jpeg' %}" alt="OnlineEater Logo" class="login-logo">
+            <h2>Ingia kwa Akaunti Yako</h2>
+        </div>
+
+        <!-- Ujumbe wa Makosa -->
+        {% if messages %}
+            <div class="message-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Fomu ya Login -->
+       
+            
+            <h2>Login</h2>
+    {% for message in messages %}
+        <p style="color:red;">{{ message }}</p>
+    {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        <label>Email:</label><br>
+        <input type="text" name="email"><br><br>
+        <label>Password:</label><br>
+        <input type="password" name="password"><br><br>
+        <button type="submit">Ingia</button>
+    </form>
+    <p>Huna akaunti? <a href="{% url 'register' %}">Jisajili</a></p>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember"> Nikumbuke
+                </label>
+                <a href="{% url 'password_reset' %}" class="forgot-password">Umesahau nenosiri?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Ingia
+            </button>
+
+            <!-- Link kwa Ajili ya Kujiunga -->
+            <div class="signup-link">
+                Huna akaunti? <a href="{% url 'register' %}">Jiunge sasa</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<!-- Font Awesome kwa Ajili ya Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %}

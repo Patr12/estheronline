@@ -1,0 +1,108 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Add Donation</h2>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+
+            <!-- Donation Type -->
+            <div class="col-md-6">
+                <label for="{{ form.donation_type.id_for_label }}" class="form-label">Donation Type</label>
+                {{ form.donation_type }}
+                {% if form.donation_type.errors %}
+                    <div class="text-danger">{{ form.donation_type.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Amount -->
+            <div class="col-md-6">
+                <label for="{{ form.amount.id_for_label }}" class="form-label">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    {{ form.amount }}
+                </div>
+                {% if form.amount.errors %}
+                    <div class="text-danger">{{ form.amount.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Date -->
+            <div class="col-md-6">
+                <label for="{{ form.date.id_for_label }}" class="form-label">Date</label>
+                {{ form.date }}
+                {% if form.date.errors %}
+                    <div class="text-danger">{{ form.date.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Payment Method -->
+            <div class="col-md-6">
+                <label for="{{ form.payment_method.id_for_label }}" class="form-label">Payment Method</label>
+                {{ form.payment_method }}
+                {% if form.payment_method.errors %}
+                    <div class="text-danger">{{ form.payment_method.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Card Number (Bank) -->
+            <div id="card-details" class="col-md-6 d-none">
+                <label for="{{ form.card_number.id_for_label }}" class="form-label">Bank Card Number</label>
+                {{ form.card_number }}
+                {% if form.card_number.errors %}
+                    <div class="text-danger">{{ form.card_number.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Mobile Number -->
+            <div id="mobile-details" class="col-md-6 d-none">
+                <label for="{{ form.mobile_number.id_for_label }}" class="form-label">Mobile Number</label>
+                {{ form.mobile_number }}
+                {% if form.mobile_number.errors %}
+                    <div class="text-danger">{{ form.mobile_number.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Recurring -->
+            <div class="col-md-6">
+                <div class="form-check mt-4">
+                    {{ form.is_recurring }} <label class="form-check-label ms-2">Is Recurring?</label>
+                </div>
+                {% if form.is_recurring.errors %}
+                    <div class="text-danger">{{ form.is_recurring.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Submit -->
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit Donation</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- JavaScript to toggle extra fields -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const paymentMethod = document.getElementById("id_payment_method");
+        const cardDiv = document.getElementById("card-details");
+        const mobileDiv = document.getElementById("mobile-details");
+
+        function toggleFields() {
+            const value = paymentMethod.value.toLowerCase();
+            cardDiv.classList.add('d-none');
+            mobileDiv.classList.add('d-none');
+
+            if (value === "bank") {
+                cardDiv.classList.remove('d-none');
+            } else if (value === "mobile") {
+                mobileDiv.classList.remove('d-none');
+            }
+        }
+
+        paymentMethod.addEventListener("change", toggleFields);
+        toggleFields();  // run once on page load
+    });
+</script>
+{% endblock %}

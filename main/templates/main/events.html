@@ -1,0 +1,62 @@
+<!-- templates/main/events.html -->
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Matukio ya Kanisa</h2>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#calendarModal">
+            <i class="fas fa-calendar-alt"></i> Muonekano wa Kalenda
+        </a>
+    </div>
+    
+    <div class="row">
+        {% for event in events %}  <!-- Sasa inafanya kazi kwa sababu tumekuwa na 'events' kwenye context -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="row g-0">
+                    <div class="col-md-4 d-flex align-items-center justify-content-center bg-light text-center p-3">
+                        <div>
+                            <h5 class="text-primary mb-0">{{ event.start_date|date:"M" }}</h5>
+                            <h2 class="fw-bold">{{ event.start_date|date:"d" }}</h2>
+                            <small>{{ event.start_date|date:"Y" }}</small>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.title }}</h5>
+                            <p class="card-text text-muted">
+                                <i class="fas fa-clock me-1"></i> 
+                                {{ event.start_date|date:"l" }}, {{ event.start_date|time }}
+                            </p>
+                            <p class="card-text">{{ event.description|truncatechars:100 }}</p>
+                            <a href="{% url 'event-detail' event.id %}" class="btn btn-sm btn-outline-primary">
+                                Maelezo Zaidi
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal ya Kalenda -->
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="calendarModalLabel">Kalenda ya Matukio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Funga"></button>
+            </div>
+            <div class="modal-body">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

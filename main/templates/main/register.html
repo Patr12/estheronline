@@ -1,0 +1,572 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<style>
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    /* Base Styles */
+    :root {
+        --primary-color: #4a6cf7;
+        --primary-hover: #3a5bd9;
+        --error-color: #e53e3e;
+        --success-color: #2f855a;
+        --text-color: #333;
+        --text-light: #666;
+        --border-color: #ddd;
+        --bg-light: #f8f9fa;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg-light);
+        line-height: 1.6;
+        color: var(--text-color);
+    }
+
+    /* Auth Container */
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .auth-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        padding: 2.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .auth-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Logo & Header */
+    .logo-container {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .auth-logo {
+        width: 90px;
+        height: auto;
+        margin-bottom: 1rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color);
+        padding: 5px;
+    }
+
+    .auth-title {
+        color: var(--text-color);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-subtitle {
+        color: var(--text-light);
+        font-size: 0.9rem;
+    }
+
+    /* Form Elements */
+    .auth-form {
+        margin-top: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        animation: fadeIn 0.5s ease-out forwards;
+        animation-delay: calc(var(--order) * 0.1s);
+        opacity: 0;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--text-color);
+        font-size: 0.95rem;
+    }
+
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-with-icon i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-light);
+        transition: color 0.3s;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 3rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        background-color: #fff;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+        outline: none;
+    }
+
+    .form-control:focus + i {
+        color: var(--primary-color);
+    }
+
+    /* Password Strength Meter */
+    .password-strength {
+        margin-top: 0.5rem;
+    }
+
+    .strength-meter {
+        height: 4px;
+        background-color: #e0e0e0;
+        border-radius: 2px;
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+    }
+
+    .strength-bar {
+        display: block;
+        height: 100%;
+        width: 0;
+        background-color: var(--error-color);
+        transition: width 0.3s, background-color 0.3s;
+    }
+
+    .password-hints {
+        color: var(--text-light);
+        font-size: 0.8rem;
+        padding: 0.75rem;
+        background: #f8fafc;
+        border-radius: 8px;
+    }
+
+    .password-hints p {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .password-hints ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .password-hints li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .password-hints li:before {
+        content: "✗";
+        position: absolute;
+        left: 0;
+        color: var(--error-color);
+    }
+
+    .password-hints li.valid:before {
+        content: "✓";
+        color: var(--success-color);
+    }
+
+    /* Terms and Conditions */
+    .terms-group {
+        margin: 1.5rem 0;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-check-input {
+        margin-right: 0.75rem;
+        width: 1.1em;
+        height: 1.1em;
+        border: 1px solid var(--border-color);
+    }
+
+    .form-check-label {
+        font-size: 0.9rem;
+        color: var(--text-light);
+    }
+
+    .terms-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .terms-link:hover {
+        color: var(--primary-hover);
+        text-decoration: underline;
+    }
+
+    /* Button Styles */
+    .auth-btn {
+        width: 100%;
+        padding: 0.85rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin: 1rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .auth-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+
+    .auth-btn:active {
+        transform: translateY(0);
+    }
+
+    .auth-btn i {
+        margin-right: 0.5rem;
+    }
+
+    /* Footer Link */
+    .auth-footer {
+        text-align: center;
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+
+    .auth-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .auth-link:hover {
+        color: var(--primary-hover);
+        text-decoration: underline;
+    }
+
+    /* Message Styles */
+    .message-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .alert {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .alert i {
+        margin-right: 0.75rem;
+        font-size: 1.1rem;
+    }
+
+    .alert-error {
+        background: #fde8e8;
+        color: var(--error-color);
+        border: 1px solid #f56565;
+    }
+
+    .alert-success {
+        background: #f0fff4;
+        color: var(--success-color);
+        border: 1px solid #68d391;
+    }
+
+    /* Error Text */
+    .error-text {
+        color: var(--error-color);
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .error-text:before {
+        content: "⚠";
+        margin-right: 0.5rem;
+        font-size: 1rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 576px) {
+        .auth-container {
+            padding: 1rem;
+        }
+        
+        .auth-card {
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        
+        .auth-title {
+            font-size: 1.5rem;
+        }
+        
+        .auth-logo {
+            width: 75px;
+        }
+    }
+</style>
+<div class="auth-container">
+    <div class="auth-card">
+        <!-- System Logo -->
+        <div class="logo-container">
+            <img src="{% static 'main/images/WhatsApp Image 2025-05-01 at 13.12.12.jpeg' %}" alt="System Logo" class="auth-logo">
+            <h2 class="auth-title">Jisajili Akaunti Mpya</h2>
+            <p class="auth-subtitle">Jaza taarifa zako kwa usahihi</p>
+        </div>
+
+        <!-- Success/Error Messages -->
+        {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="auth-form" novalidate>
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+           <!-- Add this field with the other form fields -->
+<div class="form-group" style="--order: 1;">
+    <label for="id_full_name" class="form-label">Jina Kamili</label>
+    <div class="input-with-icon">
+        <i class="fas fa-user"></i>
+        <input type="text" name="full_name" id="id_full_name" class="form-control" placeholder="Weka jina lako kamili" required>
+    </div>
+    {% if form.full_name.errors %}
+        <div class="error-text">{{ form.full_name.errors }}</div>
+    {% endif %}
+</div>
+            
+            <!-- Email Field -->
+            <div class="form-group" style="--order: 2;">
+                <label for="id_email" class="form-label">Barua Pepe</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="email" id="id_email" class="form-control" placeholder="Weka barua pepe yako" required>
+                </div>
+                {% if form.email.errors %}
+                    <div class="error-text">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Password Field -->
+            <div class="form-group" style="--order: 3;">
+                <label for="id_password1" class="form-label">Nenosiri</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password1" id="id_password1" class="form-control" placeholder="Weka nenosiri lako" required>
+                </div>
+                <div class="password-strength">
+                    <div class="strength-meter">
+                        <span class="strength-bar"></span>
+                    </div>
+                    <div class="password-hints">
+                        <p>Nenosiri lazima liwe na:</p>
+                        <ul>
+                            <li class="length-check">Herufi 8 au zaidi</li>
+                            <li class="number-check">Nambari angalau 1</li>
+                            <li class="uppercase-check">Herufi kubwa angalau 1</li>
+                            <li class="special-check">Alama maalum angalau 1</li>
+                        </ul>
+                    </div>
+                </div>
+                {% if form.password1.errors %}
+                    <div class="error-text">{{ form.password1.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Confirm Password Field -->
+            <div class="form-group" style="--order: 4;">
+                <label for="id_password2" class="form-label">Thibitisha Nenosiri</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Rudia nenosiri lako" required>
+                </div>
+                {% if form.password2.errors %}
+                    <div class="error-text">{{ form.password2.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Terms and Conditions -->
+            <div class="form-group terms-group" style="--order: 5;">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                    <label class="form-check-label" for="termsCheck">
+                        Nakubali <a href="#" class="terms-link">Sheria na Masharti</a>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="auth-btn" style="--order: 6;">
+                <i class="fas fa-user-plus"></i> Jisajili
+            </button>
+            
+            <!-- Login Link -->
+            <p class="auth-footer">
+                Tayari una akaunti? <a href="{% url 'login_view' %}" class="auth-link">Ingia hapa</a>
+            </p>
+        </form>
+    </div>
+</div>
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- JavaScript Enhancements -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle password visibility
+    const passwordFields = document.querySelectorAll('.input-with-icon');
+    
+    passwordFields.forEach(field => {
+        if (field.querySelector('input[type="password"]')) {
+            const eyeIcon = document.createElement('i');
+            eyeIcon.className = 'fas fa-eye toggle-password';
+            eyeIcon.style.position = 'absolute';
+            eyeIcon.style.right = '15px';
+            eyeIcon.style.top = '50%';
+            eyeIcon.style.transform = 'translateY(-50%)';
+            eyeIcon.style.cursor = 'pointer';
+            eyeIcon.style.color = '#777';
+            
+            eyeIcon.addEventListener('click', function() {
+                const input = field.querySelector('input');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.replace('fa-eye', 'fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    this.classList.replace('fa-eye-slash', 'fa-eye');
+                }
+            });
+            
+            field.appendChild(eyeIcon);
+        }
+    });
+
+    // Password strength checker
+    const passwordInput = document.querySelector('#id_password1');
+    if (passwordInput) {
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.querySelector('.strength-bar');
+            const hints = {
+                length: document.querySelector('.length-check'),
+                number: document.querySelector('.number-check'),
+                uppercase: document.querySelector('.uppercase-check'),
+                special: document.querySelector('.special-check')
+            };
+            
+            // Reset all hints
+            Object.values(hints).forEach(hint => hint.classList.remove('valid'));
+            
+            let strength = 0;
+            
+            // Check length
+            if (password.length >= 8) {
+                hints.length.classList.add('valid');
+                strength += 25;
+            }
+            
+            // Check for numbers
+            if (/\d/.test(password)) {
+                hints.number.classList.add('valid');
+                strength += 25;
+            }
+            
+            // Check for uppercase letters
+            if (/[A-Z]/.test(password)) {
+                hints.uppercase.classList.add('valid');
+                strength += 25;
+            }
+            
+            // Check for special characters
+            if (/[^A-Za-z0-9]/.test(password)) {
+                hints.special.classList.add('valid');
+                strength += 25;
+            }
+            
+            // Update strength meter
+            strengthBar.style.width = strength + '%';
+            
+            // Update color based on strength
+            if (strength < 50) {
+                strengthBar.style.backgroundColor = '#e53e3e'; // Weak (red)
+            } else if (strength < 75) {
+                strengthBar.style.backgroundColor = '#f6ad55'; // Medium (orange)
+            } else {
+                strengthBar.style.backgroundColor = '#68d391'; // Strong (green)
+            }
+        });
+    }
+
+    // Form validation on submit
+    const form = document.querySelector('.auth-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const termsCheckbox = document.querySelector('#termsCheck');
+            if (!termsCheckbox.checked) {
+                e.preventDefault();
+                alert('Tafadhali kubali sheria na masharti kabla ya kuendelea');
+                termsCheckbox.focus();
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
+
+
+

@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient-primary text-white">
+            <h3 class="mb-0">
+                <i class="fas fa-edit me-2"></i>Edit Donation
+            </h3>
+        </div>
+        
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-save me-1"></i> Save Changes
+                    </button>
+                    <a href="{% url 'donation_detail' pk=donation.pk %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times me-1"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
