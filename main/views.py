@@ -86,11 +86,12 @@ def logout_view(request):
 
 # Main Views
 def home(request):
-    # Get upcoming events (next 7 days)
+    now = timezone.now()
+    # Get all upcoming events
     upcoming_events = Event.objects.filter(
-        start_date__gte=timezone.now(),
-        start_date__lte=timezone.now() + timezone.timedelta(days=7)
-    ).order_by('start_date')[:3]
+        start_date__gte=timezone.now()
+    ).order_by('start_date')
+    past_events = Event.objects.filter(start_date__lt=now).order_by('-start_date')
     
     # Get latest teachings
     latest_teachings = Teaching.objects.filter(
@@ -105,6 +106,7 @@ def home(request):
     context = {
         'upcoming_events': upcoming_events,
         'latest_teachings': latest_teachings,
+        'past_events': past_events,
         'latest_blogs': latest_blogs,
     }
     return render(request, 'main/home.html', context)

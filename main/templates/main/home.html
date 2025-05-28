@@ -41,12 +41,12 @@
         </div>
         
         <div class="row g-4">
-            {% for event in upcoming_events|slice:":3" %}
+            {% for event in upcoming_events %}
             <div class="col-md-4">
                 <div class="card event-card h-100 border-0 shadow-sm overflow-hidden transition-all">
                     <div class="event-date-ribbon bg-primary text-white">
-                        <span class="month">{{ event.date|date:"M" }}</span>
-                        <span class="day">{{ event.date|date:"d" }}</span>
+                        <span class="month">{{ event.start_date|date:"M" }}</span>
+                        <span class="day">{{ event.start_date|date:"d" }}</span>
                     </div>
                     <div class="card-img-container">
                         <img src="{% static 'main/images/event-default.jpg' %}" class="card-img-top" alt="{{ event.title }}">
@@ -55,7 +55,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ event.title }}</h5>
                         <p class="card-text text-muted small">
-                            <i class="fas fa-clock me-2"></i>{{ event.date|date:"l, F j, Y" }} at {{ event.date|time }}
+                            <i class="fas fa-clock me-2"></i>{{ event.start_date|date:"l, F j, Y" }} at {{ event.start_date|time }}
                         </p>
                         <p class="card-text">{{ event.description|truncatewords:20 }}</p>
                     </div>
@@ -71,6 +71,27 @@
             </div>
             {% endfor %}
         </div>
+        <hr class="my-5">
+
+    <h2 class="text-center mb-4">Past Events</h2>
+
+    <div class="row g-4">
+        {% for event in past_events %}
+        <div class="col-md-4">
+            <div class="card h-100 border-secondary shadow-sm">
+                <img src="{% static 'main/images/event-default.jpg' %}" class="card-img-top" alt="{{ event.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text text-muted small">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        {{ event.start_date|date:"l, F j, Y" }} at {{ event.start_date|time }}
+                    </p>
+                    <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                    <a href="{% url 'event-detail' event.pk %}" class="btn btn-outline-secondary btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+        	{% endfor %}
         
         <div class="text-center mt-5">
             <a href="{% url 'events' %}" class="btn btn-primary px-4 rounded-pill shadow-sm">
@@ -79,6 +100,7 @@
         </div>
     </div>
 </section>
+
 
 <!-- Service Times Section with Countdown -->
 <section class="py-5 position-relative services">
