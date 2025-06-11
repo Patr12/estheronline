@@ -3,6 +3,7 @@ from django.template.loader import get_template
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
+from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.db import transaction
@@ -47,7 +48,7 @@ def login_view(request):
         password = request.POST.get('password', '').strip()
 
         if not email or not password:
-            messages.error(request, 'Tafadhali jaza barua pepe na nenosiri')
+            messages.error(request, _('Please enter your email and password'))
             return redirect('login_view')
 
         try:
@@ -251,7 +252,6 @@ def add_donation(request):
         if form.is_valid():
             donation = form.save(commit=False)
             payment_method = form.cleaned_data['payment_method']
-
             # Handle extra payment info
             if 'bank' in payment_method.lower():
                 donation.card_number = request.POST.get('card_number', '')
@@ -270,7 +270,7 @@ def donation_detail(request, pk):
     try:
         donation = Donation.objects.get(pk=pk, donor=request.user)
     except Donation.DoesNotExist:
-        messages.error(request, "Donation not found or you don't have permission to view it.")
+        messages.error(request, _("Donation not found or you don't have permission to view it."))
         return redirect('donation_list')
         
     return render(request, 'main/donation_detail.html', {'donation': donation})
@@ -282,7 +282,7 @@ def edit_donation(request, pk):
         form = DonationForm(request.POST, instance=donation)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Donation updated successfully!')
+            messages.success(request, _('Donation updated successfully!'))
             return redirect('donation_detail', pk=donation.pk)
     else:
         form = DonationForm(instance=donation)
