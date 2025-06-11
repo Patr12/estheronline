@@ -1,12 +1,12 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
+{% load i18n %}
 {% block content %}
 <div class="container py-5">
     <div class="card shadow-lg border-0">
         <div class="card-header bg-gradient-primary text-white">
             <h3 class="mb-0">
-                <i class="fas fa-edit me-2"></i>Edit Donation
+                <i class="fas fa-edit me-2"></i>{% trans "Edit Donation" %}
             </h3>
         </div>
         
@@ -16,10 +16,10 @@
                 {{ form.as_p }}
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary me-2">
-                        <i class="fas fa-save me-1"></i> Save Changes
+                        <i class="fas fa-save me-1"></i> {% trans "Save Changes" %}
                     </button>
                     <a href="{% url 'donation_detail' pk=donation.pk %}" class="btn btn-outline-secondary">
-                        <i class="fas fa-times me-1"></i> Cancel
+                        <i class="fas fa-times me-1"></i> {% trans "Cancel" %}
                     </a>
                 </div>
             </form>

@@ -1,15 +1,15 @@
 {% extends 'main/base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">Add Donation</h2>
+    <h2 class="mb-4">{% trans "Add Donation" %}</h2>
     <form method="post" novalidate>
         {% csrf_token %}
         <div class="row g-3">
 
             <!-- Donation Type -->
             <div class="col-md-6">
-                <label for="{{ form.donation_type.id_for_label }}" class="form-label">Donation Type</label>
+                <label for="{{ form.donation_type.id_for_label }}" class="form-label">{% trans "Donation Type" %}</label>
                 {{ form.donation_type }}
                 {% if form.donation_type.errors %}
                     <div class="text-danger">{{ form.donation_type.errors.0 }}</div>
@@ -18,9 +18,9 @@
 
             <!-- Amount -->
             <div class="col-md-6">
-                <label for="{{ form.amount.id_for_label }}" class="form-label">Amount</label>
+                <label for="{{ form.amount.id_for_label }}" class="form-label">{% trans "Amount" %}</label>
                 <div class="input-group">
-                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">Tshl</span>
                     {{ form.amount }}
                 </div>
                 {% if form.amount.errors %}
@@ -30,7 +30,7 @@
 
             <!-- Date -->
             <div class="col-md-6">
-                <label for="{{ form.date.id_for_label }}" class="form-label">Date</label>
+                <label for="{{ form.date.id_for_label }}" class="form-label">{% trans "Date" %}</label>
                 {{ form.date }}
                 {% if form.date.errors %}
                     <div class="text-danger">{{ form.date.errors.0 }}</div>
@@ -39,7 +39,7 @@
 
             <!-- Payment Method -->
             <div class="col-md-6">
-                <label for="{{ form.payment_method.id_for_label }}" class="form-label">Payment Method</label>
+                <label for="{{ form.payment_method.id_for_label }}" class="form-label">{% trans "Payment Method" %}</label>
                 {{ form.payment_method }}
                 {% if form.payment_method.errors %}
                     <div class="text-danger">{{ form.payment_method.errors.0 }}</div>
@@ -48,7 +48,7 @@
 
             <!-- Card Number (Bank) -->
             <div id="card-details" class="col-md-6 d-none">
-                <label for="{{ form.card_number.id_for_label }}" class="form-label">Bank Card Number</label>
+                <label for="{{ form.card_number.id_for_label }}" class="form-label">{% trans "Bank Card Number" %}</label>
                 {{ form.card_number }}
                 {% if form.card_number.errors %}
                     <div class="text-danger">{{ form.card_number.errors.0 }}</div>
@@ -57,7 +57,7 @@
 
             <!-- Mobile Number -->
             <div id="mobile-details" class="col-md-6 d-none">
-                <label for="{{ form.mobile_number.id_for_label }}" class="form-label">Mobile Number</label>
+                <label for="{{ form.mobile_number.id_for_label }}" class="form-label">{% trans "Mobile Number" %}</label>
                 {{ form.mobile_number }}
                 {% if form.mobile_number.errors %}
                     <div class="text-danger">{{ form.mobile_number.errors.0 }}</div>
@@ -67,7 +67,7 @@
             <!-- Recurring -->
             <div class="col-md-6">
                 <div class="form-check mt-4">
-                    {{ form.is_recurring }} <label class="form-check-label ms-2">Is Recurring?</label>
+                    {{ form.is_recurring }} <label class="form-check-label ms-2">{% trans "Is Recurring?" %}</label>
                 </div>
                 {% if form.is_recurring.errors %}
                     <div class="text-danger">{{ form.is_recurring.errors.0 }}</div>
@@ -76,7 +76,7 @@
 
             <!-- Submit -->
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">Submit Donation</button>
+                <button type="submit" class="btn btn-primary">{% trans "Submit Donation" %}</button>
             </div>
         </div>
     </form>

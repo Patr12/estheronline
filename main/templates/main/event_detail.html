@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="container py-5">
@@ -11,25 +12,31 @@
                     <h3 class="card-title">{{ event.title }}</h3>
                     <p class="card-text text-muted">
                         <i class="fas fa-calendar-alt me-2"></i>
-                        {{ event.start_date|date:"l, F j, Y" }} at {{ event.start_date|time }}
+                        {{ event.start_date|date:"l, F j, Y" }} {% trans "at" %} {{ event.start_date|time }}
                     </p>
-                    <p class="card-text">{{ event.description }}</p>
+                    <p class="card-text">{% trans event.description %}</p>
 
                     <!-- Event Registration Form -->
                     <div class="my-4">
                         <form method="post">
                             {% csrf_token %}
                             {% if is_attending %}
-                                <button type="submit" class="btn btn-danger">Cancel Registration</button>
+                                <button type="submit" class="btn btn-danger">{% trans "Cancel Registration" %}</button>
                             {% else %}
-                                <button type="submit" class="btn btn-primary">Register for Event</button>
+                                <button type="submit" class="btn btn-primary">{% trans "Register for Event" %}</button>
                             {% endif %}
                         </form>
-                        <span class="ms-3">{{ attendees_count }} people attending</span>
+                        <span class="ms-3">
+                            {% blocktrans count count=attendees_count %}
+                                {{ count }} person attending
+                            {% plural %}
+                                {{ count }} people attending
+                            {% endblocktrans %}
+                        </span>
                     </div>
 
                     <!-- Event Type -->
-                    <span class="badge bg-secondary">{{ event.event_type }}</span>
+                    <span class="badge bg-secondary">{% trans event.event_type %}</span>
                 </div>
             </div>
         </div>

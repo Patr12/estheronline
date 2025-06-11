@@ -15,8 +15,29 @@ from main.chat import get_conversations
 from django.core.exceptions import ValidationError
 from .models import *
 from .forms import *
+from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.utils.translation import activate, get_language
+from django.urls import reverse
 
 
+def set_language(request):
+    if request.method == 'POST':
+        language_code = request.POST.get('language')
+        next_url = request.POST.get('next', '/')
+
+        if language_code in dict(settings.LANGUAGES):
+            activate(language_code)
+            request.session[settings.LANGUAGE_COOKIE_NAME] = language_code
+
+            response = HttpResponseRedirect(next_url)
+            response.set_cookie(
+                settings.LANGUAGE_COOKIE_NAME,
+                language_code,
+                max_age=365 * 24 * 60 * 60,
+            )
+            return response
+    return HttpResponseRedirect('/')
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('home')

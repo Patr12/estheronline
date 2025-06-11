@@ -1,8 +1,9 @@
 <!-- SCHEDULE PAGE -->
 {% extends 'main/base.html' %}
+{% load i18n %}
 {% block content %}
 <div class="container mt-5">
-  <h2 class="mb-4 text-center">Ratiba ya Huduma</h2>
+  <h2 class="mb-4 text-center">{% trans "Timetable of Services" %}</h2>
   <ul class="list-group">
     {% for s in schedules %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -10,7 +11,7 @@
       <span class="badge bg-primary rounded-pill">{{ s.time }}</span>
     </li>
     {% empty %}
-    <li class="list-group-item text-center">Hakuna ratiba iliyo wekwa.</li>
+    <li class="list-group-item text-center">{% trans "the haven't service available ." %}</li>
     {% endfor %}
   </ul>
 </div>

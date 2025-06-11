@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %}
-{% load static %}
+{% load static i18n %}
 {% block content %}
 <div class="container py-5">
     <div class="card shadow-lg border-0">
@@ -7,10 +7,10 @@
         <div class="card-header bg-gradient-primary text-white">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="mb-0">
-                    <i class="fas fa-hand-holding-heart me-2"></i>Donations List
+                    <i class="fas fa-hand-holding-heart me-2"></i>{% trans "Donations List" %}
                 </h3>
                 <a href="{% url 'add_donation' %}" class="btn btn-light btn-sm">
-                    <i class="fas fa-plus me-1"></i> Add Donation
+                    <i class="fas fa-plus me-1"></i> {% trans "Add Donation" %}
                 </a>
             </div>
         </div>
@@ -22,11 +22,11 @@
                 <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th class="ps-4"><i class="fas fa-user me-1"></i> Donor</th>
-                            <th><i class="fas fa-gift me-1"></i> Type</th>
-                            <th><i class="fas fa-dollar-sign me-1"></i> Amount</th>
-                            <th><i class="fas fa-calendar-alt me-1"></i> Date</th>
-                            <th class="text-end pe-4"><i class="fas fa-cog me-1"></i> Actions</th>
+                            <th class="ps-4"><i class="fas fa-user me-1"></i> {% trans "Donor" %}</th>
+                            <th><i class="fas fa-gift me-1"></i> {% trans "Type" %}</th>
+                            <th><i class="fas fa-dollar-sign me-1"></i> {% trans "Amount" %}</th>
+                            <th><i class="fas fa-calendar-alt me-1"></i> {% trans "Date" %}</th>
+                            <th class="text-end pe-4"><i class="fas fa-cog me-1"></i> {% trans "Actions" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,13 +54,13 @@
                             <td>{{ donation.date|date:"M d, Y" }}</td>
                             <td class="text-end pe-4">
                                 <div class="btn-group btn-group-sm">
-                                    <a href="{% url 'donation_detail' pk=donation.id %}" class="btn btn-outline-primary" title="View">{{ donation.name }}
+                                    <a href="{% url 'donation_detail' pk=donation.id %}" class="btn btn-outline-primary" title="{% trans 'View' %}">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{% url 'edit_donation' pk=donation.id %}" class="btn btn-outline-secondary" title="Edit">
+                                    <a href="{% url 'edit_donation' pk=donation.id %}" class="btn btn-outline-secondary" title="{% trans 'Edit' %}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{% url 'delete_donation' pk=donation.id %}" class="btn btn-outline-danger" title="Delete">
+                                    <a href="{% url 'delete_donation' pk=donation.id %}" class="btn btn-outline-danger" title="{% trans 'Delete' %}">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </div>
@@ -74,10 +74,10 @@
             <div class="text-center py-5">
                 <div class="empty-state">
                     <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
-                    <h4 class="text-muted">No Donations Found</h4>
-                    <p class="text-muted">There are currently no donations recorded.</p>
+                    <h4 class="text-muted">{% trans "No Donations Found" %}</h4>
+                    <p class="text-muted">{% trans "There are currently no donations recorded." %}</p>
                     <a href="{% url 'add_donation' %}" class="btn btn-primary mt-3">
-                        <i class="fas fa-plus me-1"></i> Make First Donation
+                        <i class="fas fa-plus me-1"></i> {% trans "Make First Donation" %}
                     </a>
                 </div>
             </div>
@@ -90,13 +90,16 @@
             <div class="row">
                 <div class="col-md-6">
                     <p class="mb-0">
-                        Showing <strong>{{ page_obj.start_index }}</strong> to <strong>{{ page_obj.end_index }}</strong> 
-                        of <strong>{{ page_obj.paginator.count }}</strong> donations
+                        {% blocktrans with start=page_obj.start_index end=page_obj.end_index count=page_obj.paginator.count %}
+                            Showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong> of <strong>{{ count }}</strong> donations
+                        {% endblocktrans %}
                     </p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <p class="mb-0">
-                        Total Amount: <strong>${{ total_amount }}</strong>
+                        {% blocktrans with total=total_amount %}
+                            Total Amount: <strong>${{ total }}</strong>
+                        {% endblocktrans %}
                     </p>
                 </div>
             </div>
@@ -105,6 +108,7 @@
     </div>
 </div>
 {% endblock %}
+
 
 {% block styles %}
 <style>

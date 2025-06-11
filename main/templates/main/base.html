@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en" class="h-100">
+{% load i18n %}  <!-- Add this line for translation tags -->
+<html lang="{{ request.LANGUAGE_CODE }}" class="h-100">  <!-- Dynamic language code -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mountain of Fire Church - A place of worship, fellowship and spiritual growth in Dar es Salaam, Tanzania">
-    <title>{% block title %}Mountain of Fire Church{% endblock %}</title>
-    
-    <!-- Preload critical resources -->
+    <meta name="description" content="{% trans 'Mountain of Fire Church - A place of worship, fellowship and spiritual growth in Dar es Salaam, Tanzania' %}">
+    <title>{% block title %}{% trans 'Mountain of Fire Church' %}{% endblock %}</title>
+
+        <!-- Preload critical resources -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
     <link rel="preload" href="{% static 'main/css/styles.css' %}" as="style">
@@ -30,92 +31,110 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'main/images/favicon.ico' %}" type="image/x-icon">
     
-    {% block extra_css %}{% endblock %}
+    <!-- Language switcher in header -->
+    <meta http-equiv="content-language" content="{{ request.LANGUAGE_CODE }}">
+    
+    <!-- Rest of your head content remains the same -->
+    ...
 </head>
 <body class="d-flex flex-column h-100">
-    <!-- Top Bar -->
+    <!-- Top Bar - Add language switcher -->
     <div class="top-bar bg-dark text-white py-2 d-none d-lg-block">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="church-info">
                     <i class="fas fa-map-marker-alt me-2"></i>
-                    <span>Rucu, Iringa, Tanzania</span>
+                    <span>{% trans 'Rucu, Iringa, Tanzania' %}</span>
                 </div>
-                <div class="church-contact">
-                    <a href="tel:+255123456789" class="text-white me-3 text-decoration-none hover-gold">
-                        <i class="fas fa-phone me-1"></i> +255 123 456 789
-                    </a>
-                    <a href="mailto:info@mfc-tz.org" class="text-white text-decoration-none hover-gold">
-                        <i class="fas fa-envelope me-1"></i> info@rucu.tz.org
-                    </a>
+                <div class="d-flex align-items-center">
+                    <div class="church-contact me-3">
+                        <a href="tel:+255123456789" class="text-white me-3 text-decoration-none hover-gold">
+                            <i class="fas fa-phone me-1"></i> +255 123 456 789
+                        </a>
+                        <a href="mailto:info@mfc-tz.org" class="text-white text-decoration-none hover-gold">
+                            <i class="fas fa-envelope me-1"></i> info@rucu.tz.org
+                        </a>
+                    </div>
+                    
+                    <!-- Language Switcher -->
+                    <form action="{% url 'set_language' %}" method="post" class="language-form">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                        <div class="input-group input-group-sm">
+                            <select name="language" class="form-select form-select-sm bg-dark text-white border-secondary" onchange="this.form.submit()">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
+                                        {{ language.name_local|title }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Navbar with translated items -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
         <div class="container">
-            <!-- Brand/Logo with improved accessibility -->
-            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}" aria-label="Mountain of Fire Ministries International Home">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}" aria-label="{% trans 'Mountain of Fire Ministries International Home' %}">
                 <img src="{% static 'main/images/WhatsApp Image 2025-05-01 at 13.12.15.jpeg' %}" alt="" height="50" class="me-2" aria-hidden="true">
                 <div>
-                    <span class="church-name d-block fw-bold">MOUNTAIN OF FIRE</span>
-                    <small class="church-tagline d-none d-md-block">Ministries International</small>
+                    <span class="church-name d-block fw-bold">{% trans 'MOUNTAIN OF FIRE' %}</span>
+                    <small class="church-tagline d-none d-md-block">{% trans 'Ministries International' %}</small>
                 </div>
             </a>
             
-            <!-- Mobile toggle button with better accessibility -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <!-- Navbar content -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <!-- Common links for all users -->
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">{% trans 'Home' %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if 'teachings' in request.path %}active{% endif %}" href="{% url 'teachings' %}">Teachings</a>
+                        <a class="nav-link {% if 'teachings' in request.path %}active{% endif %}" href="{% url 'teachings' %}">{% trans 'Teachings' %}</a>
                     </li>
     
                     {% if user.is_authenticated %}
-                        <!-- Dropdown for authenticated users -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-person-circle me-1"></i> {{ user.first_name|default:user.username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="{% url 'profile_view' %}"><i class="bi bi-person me-2"></i>Profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'chat-home' %}"><i class="bi bi-chat-left-text me-2"></i>Messages</a></li>
-                                <li><a class="dropdown-item" href="{% url 'donation_list' %}"><i class="bi bi-coin me-2"></i>My Donations</a></li>
-                                <li><a class="dropdown-item" href="{% url 'schedule' %}"><i class="bi bi-calendar-check me-2"></i>My Schedule</a></li>
-                                <li><a class="dropdown-item" href="{% url 'events' %}"><i class="bi bi-calendar-check me-2"></i>Events</a></li>
+                                <li><a class="dropdown-item" href="{% url 'profile_view' %}"><i class="bi bi-person me-2"></i>{% trans 'Profile' %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'chat-home' %}"><i class="bi bi-chat-left-text me-2"></i>{% trans 'Messages' %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'donation_list' %}"><i class="bi bi-coin me-2"></i>{% trans 'My Donations' %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'schedule' %}"><i class="bi bi-calendar-check me-2"></i>{% trans 'My Schedule' %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'events' %}"><i class="bi bi-calendar-check me-2"></i>{% trans 'Events' %}</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="{% url 'logout_view' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'logout_view' %}"><i class="bi bi-box-arrow-right me-2"></i>{% trans 'Logout' %}</a></li>
                             </ul>
                         </li>
                         
-                        <!-- Notification bell (optional) -->
                         <li class="nav-item">
-                            <a class="nav-link position-relative" href="#" title="Notifications">
+                            <a class="nav-link position-relative" href="#" title="{% trans 'Notifications' %}">
                                 <i class="bi bi-bell"></i>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    3 <span class="visually-hidden">unread notifications</span>
+                                    3 <span class="visually-hidden">{% trans 'unread notifications' %}</span>
                                 </span>
                             </a>
                         </li>
                     {% else %}
-                        <!-- Guest user links -->
                         <li class="nav-item">
                             <a class="nav-link {% if 'login' in request.path %}active{% endif %}" href="{% url 'login_view' %}">
-                                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                                <i class="bi bi-box-arrow-in-right me-1"></i>{% trans 'Login' %}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link btn btn-outline-light ms-2 {% if 'register' in request.path %}active{% endif %}" href="{% url 'register' %}">
-                                <i class="bi bi-person-plus me-1"></i>Register
+                                <i class="bi bi-person-plus me-1"></i>{% trans 'Register' %}
                             </a>
                         </li>
                     {% endif %}
@@ -129,14 +148,14 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
+    <!-- Footer with translations -->
     <footer class="footer bg-dark text-white pt-5 pb-3 mt-auto">
         <div class="container">
             <div class="row g-4">
                 <div class="col-lg-4">
                     <div class="footer-about">
-                        <img src="{% static 'main/images/WhatsApp Image 2025-05-01 at 13.12.15.jpeg' %}" alt="Church Logo" height="50" class="mb-3" loading="lazy">
-                        <p class="mb-3">Mountain of Fire Church is dedicated to spreading the gospel and serving our community in Iringa and beyond.</p>
+                        <img src="{% static 'main/images/WhatsApp Image 2025-05-01 at 13.12.15.jpeg' %}" alt="{% trans 'Church Logo' %}" height="50" class="mb-3" loading="lazy">
+                        <p class="mb-3">{% trans 'Mountain of Fire Church is dedicated to spreading the gospel and serving our community in Iringa and beyond.' %}</p>
                         <div class="social-icons">
                             <a href="#" class="text-white me-2 hover-gold" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                             <a href="#" class="text-white me-2 hover-gold" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -147,38 +166,38 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4">
-                    <h5 class="footer-heading mb-4">Quick Links</h5>
+                    <h5 class="footer-heading mb-4">{% trans 'Quick Links' %}</h5>
                     <ul class="footer-links list-unstyled">
-                        <li class="mb-2"><a href="{% url 'home' %}" class="text-white text-decoration-none hover-gold">Home</a></li>
-                        <li class="mb-2"><a href="{% url 'schedule' %}" class="text-white text-decoration-none hover-gold">Service Times</a></li>
-                        <li class="mb-2"><a href="{% url 'teachings' %}" class="text-white text-decoration-none hover-gold">Sermons</a></li>
-                        <li class="mb-2"><a href="{% url 'events' %}" class="text-white text-decoration-none hover-gold">Upcoming Events</a></li>
-                        <li class="mb-2"><a href="{% url 'donation' %}" class="text-white text-decoration-none hover-gold">Online Giving</a></li>
+                        <li class="mb-2"><a href="{% url 'home' %}" class="text-white text-decoration-none hover-gold">{% trans 'Home' %}</a></li>
+                        <li class="mb-2"><a href="{% url 'schedule' %}" class="text-white text-decoration-none hover-gold">{% trans 'Service Times' %}</a></li>
+                        <li class="mb-2"><a href="{% url 'teachings' %}" class="text-white text-decoration-none hover-gold">{% trans 'Sermons' %}</a></li>
+                        <li class="mb-2"><a href="{% url 'events' %}" class="text-white text-decoration-none hover-gold">{% trans 'Upcoming Events' %}</a></li>
+                        <li class="mb-2"><a href="{% url 'donation' %}" class="text-white text-decoration-none hover-gold">{% trans 'Online Giving' %}</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-4">
-                    <h5 class="footer-heading mb-4">Ministries</h5>
+                    <h5 class="footer-heading mb-4">{% trans 'Ministries' %}</h5>
                     <ul class="footer-links list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">Men's Fellowship</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">Women's Ministry</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">Youth Group</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">Children's Church</a></li>
-                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">Prayer Ministry</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">{% trans "Men's Fellowship" %}</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">{% trans "Women's Ministry" %}</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">{% trans 'Youth Group' %}</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">{% trans "Children's Church" %}</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-gold">{% trans 'Prayer Ministry' %}</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-4">
-                    <h5 class="footer-heading mb-4">Contact Us</h5>
+                    <h5 class="footer-heading mb-4">{% trans 'Contact Us' %}</h5>
                     <address class="mb-4">
-                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-gold"></i> Rucu, Iringa, Tanzania</p>
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-gold"></i> {% trans 'Rucu, Iringa, Tanzania' %}</p>
                         <p class="mb-2"><i class="fas fa-phone me-2 text-gold"></i> +255 123 456 789</p>
                         <p class="mb-2"><i class="fas fa-envelope me-2 text-gold"></i> info@rucu.tz.org</p>
                     </address>
                     <div class="newsletter">
-                        <h6 class="mb-3">Subscribe to Newsletter</h6>
+                        <h6 class="mb-3">{% trans 'Subscribe to Newsletter' %}</h6>
                         <form class="mt-2">
                             <div class="input-group mb-3">
-                                <input type="email" class="form-control" placeholder="Your Email" aria-label="Your Email" required>
-                                <button class="btn btn-primary" type="submit">Subscribe</button>
+                                <input type="email" class="form-control" placeholder="{% trans 'Your Email' %}" aria-label="{% trans 'Your Email' %}" required>
+                                <button class="btn btn-primary" type="submit">{% trans 'Subscribe' %}</button>
                             </div>
                         </form>
                     </div>
@@ -187,10 +206,10 @@
             <hr class="my-4">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    <p class="mb-0 small">&copy; <span id="current-year"></span> Mountain of Fire Church. All rights reserved.</p>
+                    <p class="mb-0 small">&copy; <span id="current-year"></span> {% trans 'Mountain of Fire Church. All rights reserved.' %}</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <p class="mb-0 small">Designed with <i class="fas fa-heart text-danger"></i> by MFC Tech Team</p>
+                    <p class="mb-0 small">{% trans 'Designed with' %} <i class="fas fa-heart text-danger"></i> {% trans 'by MFC Tech Team' %}</p>
                 </div>
             </div>
         </div>

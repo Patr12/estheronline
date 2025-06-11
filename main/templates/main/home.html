@@ -1,8 +1,11 @@
 {% extends 'main/base.html' %}
-{% load static %}
+{% load static i18n %}
+
 <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
 
 {% block content %}
+
+
 <!-- Updated Hero Section HTML -->
 <section class="hero-section">
     <div class="hero-slideshow">
@@ -14,14 +17,14 @@
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-lg-8 mx-auto text-center text-white">
-                <h1 class="display-3 fw-bold mb-4">Welcome to Mountain of Fire Church</h1>
-                <p class="lead mb-5">A place of worship, fellowship and spiritual growth</p>
+                <h1 class="display-3 fw-bold mb-4">{% trans "Welcome to Mountain of Fire Church" %}</h1>
+                <p class="lead mb-5">{% trans "A place of worship, fellowship and spiritual growth" %}</p>
                 <div class="hero-buttons d-flex justify-content-center gap-3">
                     <a href="{% url 'schedule' %}" class="btn btn-primary btn-lg px-4 rounded-pill shadow">
-                        <i class="fas fa-calendar-alt me-2"></i> Service Times
+                        <i class="fas fa-calendar-alt me-2"></i> {% trans "Service Times" %}
                     </a>
                     <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4 rounded-pill">
-                        <i class="fas fa-user-plus me-2"></i> Join Us
+                        <i class="fas fa-user-plus me-2"></i> {% trans "Join Us" %}
                     </a>
                 </div>
             </div>
@@ -36,8 +39,8 @@
 <section class="py-5 bg-light">
     <div class="container">
         <div class="section-header text-center mb-5">
-            <h2 class="section-title position-relative d-inline-block">Upcoming Events</h2>
-            <p class="section-subtitle text-muted">Join us for these special gatherings</p>
+            <h2 class="section-title position-relative d-inline-block">{% trans "Upcoming Events" %}</h2>
+            <p class="section-subtitle text-muted">{% trans "Join us for these special gatherings" %}</p>
         </div>
         
         <div class="row g-4">
@@ -55,25 +58,25 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ event.title }}</h5>
                         <p class="card-text text-muted small">
-                            <i class="fas fa-clock me-2"></i>{{ event.start_date|date:"l, F j, Y" }} at {{ event.start_date|time }}
+                            <i class="fas fa-clock me-2"></i>{{ event.start_date|date:"l, F j, Y" }} {% trans "at" %} {{ event.start_date|time }}
                         </p>
                         <p class="card-text">{{ event.description|truncatewords:20 }}</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
-                        <a href="{% url 'events' %}" class="btn btn-sm btn-outline-primary rounded-pill">View Details</a>
+                        <a href="{% url 'events' %}" class="btn btn-sm btn-outline-primary rounded-pill">{% trans "View Details" %}</a>
                         <span class="badge bg-secondary">{{ event.event_type }}</span>
                     </div>
                 </div>
             </div>
             {% empty %}
             <div class="col-12 text-center py-4">
-                <div class="alert alert-info">No upcoming events scheduled. Check back later!</div>
+                <div class="alert alert-info">{% trans "No upcoming events scheduled. Check back later!" %}</div>
             </div>
             {% endfor %}
         </div>
         <hr class="my-5">
 
-    <h2 class="text-center mb-4">Past Events</h2>
+    <h2 class="text-center mb-4">{% trans "Past Events" %}</h2>
 
     <div class="row g-4">
         {% for event in past_events %}
@@ -84,23 +87,22 @@
                     <h5 class="card-title">{{ event.title }}</h5>
                     <p class="card-text text-muted small">
                         <i class="fas fa-calendar-check me-2"></i>
-                        {{ event.start_date|date:"l, F j, Y" }} at {{ event.start_date|time }}
+                        {{ event.start_date|date:"l, F j, Y" }} {% trans "at" %} {{ event.start_date|time }}
                     </p>
                     <p class="card-text">{{ event.description|truncatewords:20 }}</p>
-                    <a href="{% url 'event-detail' event.pk %}" class="btn btn-outline-secondary btn-sm">View Details</a>
+                    <a href="{% url 'event-detail' event.pk %}" class="btn btn-outline-secondary btn-sm">{% trans "View Details" %}</a>
                 </div>
             </div>
         </div>
-        	{% endfor %}
+        {% endfor %}
         
         <div class="text-center mt-5">
             <a href="{% url 'events' %}" class="btn btn-primary px-4 rounded-pill shadow-sm">
-                View All Events <i class="fas fa-arrow-right ms-2"></i>
+                {% trans "View All Events" %} <i class="fas fa-arrow-right ms-2"></i>
             </a>
         </div>
     </div>
 </section>
-
 
 <!-- Service Times Section with Countdown -->
 <section class="py-5 position-relative services">
@@ -109,8 +111,8 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <div class="section-header mb-4">
-                    <h2 class="section-title text-white">Service Schedule</h2>
-                    <p class="section-subtitle text-light">Join us for worship and fellowship</p>
+                    <h2 class="section-title text-white">{% trans "Service Schedule" %}</h2>
+                    <p class="section-subtitle text-light">{% trans "Join us for worship and fellowship" %}</p>
                 </div>
                 
                 <div class="service-times bg-white p-4 rounded shadow">
@@ -124,36 +126,36 @@
                         <div class="service-details flex-grow-1">
                             <h6 class="mb-1">{{ schedule.title }}</h6>
                             <p class="text-muted mb-0 small"><i class="fas fa-clock me-2"></i>{{ schedule.time }}</p>
-                            <p class="text-muted mb-0 small"><i class="fas fa-user me-2"></i>{{ schedule.speaker|default:"All are welcome" }}</p>
+                            <p class="text-muted mb-0 small"><i class="fas fa-user me-2"></i>{{ schedule.speaker|default:_("All are welcome") }}</p>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
                 
                 <a href="{% url 'schedule' %}" class="btn btn-outline-light mt-3 rounded-pill">
-                    Full Schedule <i class="fas fa-calendar-alt ms-2"></i>
+                    {% trans "Full Schedule" %} <i class="fas fa-calendar-alt ms-2"></i>
                 </a>
             </div>
             <div class="col-lg-6">
                 <div class="next-service-card bg-white p-4 rounded shadow">
-                    <h4 class="mb-4 text-center">Next Service In:</h4>
+                    <h4 class="mb-4 text-center">{% trans "Next Service In:" %}</h4>
                     <div class="countdown-container text-center mb-4">
                         <div class="countdown-timer d-flex justify-content-center">
                             <div class="countdown-item me-3">
                                 <div class="countdown-number" id="days">00</div>
-                                <div class="countdown-label">Days</div>
+                                <div class="countdown-label">{% trans "Days" %}</div>
                             </div>
                             <div class="countdown-item me-3">
                                 <div class="countdown-number" id="hours">00</div>
-                                <div class="countdown-label">Hours</div>
+                                <div class="countdown-label">{% trans "Hours" %}</div>
                             </div>
                             <div class="countdown-item me-3">
                                 <div class="countdown-number" id="minutes">00</div>
-                                <div class="countdown-label">Minutes</div>
+                                <div class="countdown-label">{% trans "Minutes" %}</div>
                             </div>
                             <div class="countdown-item">
                                 <div class="countdown-number" id="seconds">00</div>
-                                <div class="countdown-label">Seconds</div>
+                                <div class="countdown-label">{% trans "Seconds" %}</div>
                             </div>
                         </div>
                     </div>
@@ -162,10 +164,10 @@
                     </div>
                     <div class="text-center mt-3">
                         <a href="#" class="btn btn-sm btn-outline-primary me-2">
-                            <i class="fas fa-video me-1"></i> Watch Live
+                            <i class="fas fa-video me-1"></i> {% trans "Watch Live" %}
                         </a>
                         <a href="#" class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-map-marker-alt me-1"></i> Get Directions
+                            <i class="fas fa-map-marker-alt me-1"></i> {% trans "Get Directions" %}
                         </a>
                     </div>
                 </div>
@@ -224,6 +226,8 @@
         </div>
     </div>
 </section>
+<!-- tumeihia hapa  -->
+
 
 <!-- Call to Action Section with Testimonial -->
 <section class="py-5 bg-primary text-white position-relative overflow-hidden">
@@ -231,16 +235,16 @@
     <div class="container position-relative">
         <div class="row align-items-center">
             <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
-                <h2 class="mb-3">Join Us This Sunday</h2>
-                <p class="lead mb-0">Experience the power of worship and the word of God</p>
+                <h2 class="mb-3">{% trans "Join Us This Sunday" %}</h2>
+                <p class="lead mb-0">{% trans "Experience the power of worship and the word of God" %}</p>
             </div>
             <div class="col-lg-4 text-center text-lg-end">
                 <div class="d-flex flex-column flex-lg-row justify-content-center justify-content-lg-end gap-3">
                     <a href="{% url 'schedule' %}" class="btn btn-light btn-lg px-4 rounded-pill shadow">
-                        <i class="fas fa-directions me-2"></i> Get Directions
+                        <i class="fas fa-directions me-2"></i> {% trans "Get Directions" %}
                     </a>
                     <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg px-4 rounded-pill">
-                        <i class="fas fa-user-plus me-2"></i> Become a Member
+                        <i class="fas fa-user-plus me-2"></i> {% trans "Become a Member" %}
                     </a>
                 </div>
             </div>
@@ -248,14 +252,14 @@
         
         <div class="testimonial-card bg-white text-dark p-4 rounded shadow mt-5">
             <div class="d-flex align-items-center mb-3">
-                <img src="{% static 'main/images/church3.jpg' %}" class="rounded-circle me-3" width="60" alt="Member testimonial">
+                <img src="{% static 'main/images/church3.jpg' %}" class="rounded-circle me-3" width="60" alt="{% trans 'Member testimonial' %}">
                 <div>
                     <h5 class="mb-0">John M.</h5>
-                    <p class="text-muted small mb-0">Member since 2018</p>
+                    <p class="text-muted small mb-0">{% trans "Member since 2018" %}</p>
                 </div>
             </div>
             <blockquote class="mb-0">
-                "Mountain of Fire Church has transformed my spiritual life. The teachings are powerful and the community is welcoming. I've found my spiritual home here."
+                {% blocktrans %}"Mountain of Fire Church has transformed my spiritual life. The teachings are powerful and the community is welcoming. I've found my spiritual home here."{% endblocktrans %}
             </blockquote>
         </div>
     </div>
@@ -265,8 +269,8 @@
 <section class="py-5">
     <div class="container">
         <div class="section-header text-center mb-5">
-            <h2 class="section-title">From Our Blog</h2>
-            <p class="section-subtitle text-muted">Latest articles and devotionals</p>
+            <h2 class="section-title">{% trans "From Our Blog" %}</h2>
+            <p class="section-subtitle text-muted">{% trans "Latest articles and devotionals" %}</p>
         </div>
         
         {% if featured_blog %}
@@ -280,14 +284,14 @@
                         <div class="col-md-6">
                             <div class="card-body p-4 p-lg-5">
                                 <div class="blog-meta mb-3">
-                                    <span class="badge bg-primary me-2">Featured</span>
+                                    <span class="badge bg-primary me-2">{% trans "Featured" %}</span>
                                     <span class="text-muted small">
                                         <i class="fas fa-calendar me-1"></i> {{ featured_blog.published_at|date:"M d, Y" }}
                                     </span>
                                 </div>
                                 <h3 class="card-title">{{ featured_blog.title }}</h3>
                                 <p class="card-text">{{ featured_blog.content|truncatewords:30 }}</p>
-                                <a href="#" class="btn btn-primary rounded-pill">Read Full Article</a>
+                                <a href="#" class="btn btn-primary rounded-pill">{% trans "Read Full Article" %}</a>
                             </div>
                         </div>
                     </div>
@@ -315,20 +319,20 @@
                         <p class="card-text">{{ blog.content|truncatewords:25 }}</p>
                     </div>
                     <div class="card-footer bg-transparent border-0">
-                        <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">Read More</a>
+                        <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">{% trans "Read More" %}</a>
                     </div>
                 </div>
             </div>
             {% empty %}
             <div class="col-12 text-center py-4">
-                <div class="alert alert-info">No blog posts available yet. Check back soon!</div>
+                <div class="alert alert-info">{% trans "No blog posts available yet. Check back soon!" %}</div>
             </div>
             {% endfor %}
         </div>
         
         <div class="text-center mt-5">
             <a href="{% url 'blog' %}" class="btn btn-primary px-4 rounded-pill shadow-sm">
-                View All Articles <i class="fas fa-arrow-right ms-2"></i>
+                {% trans "View All Articles" %} <i class="fas fa-arrow-right ms-2"></i>
             </a>
         </div>
     </div>
@@ -339,35 +343,35 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <img src="{% static 'main/images/church3.jpg' %}" alt="Giving" class="img-fluid rounded shadow">
+                <img src="{% static 'main/images/church3.jpg' %}" alt="{% trans 'Giving' %}" class="img-fluid rounded shadow">
             </div>
             <div class="col-lg-6">
                 <div class="section-header mb-4">
-                    <h2 class="section-title">Support Our Ministry</h2>
-                    <p class="section-subtitle text-muted">Your generosity makes a difference</p>
+                    <h2 class="section-title">{% trans "Support Our Ministry" %}</h2>
+                    <p class="section-subtitle text-muted">{% trans "Your generosity makes a difference" %}</p>
                 </div>
                 
-                <p class="mb-4">We are grateful for your faithful giving which enables us to continue our mission of spreading the gospel and serving our community.</p>
+                <p class="mb-4">{% trans "We are grateful for your faithful giving which enables us to continue our mission of spreading the gospel and serving our community." %}</p>
                 
                 <div class="giving-progress mb-4">
                     <h5 class="d-flex justify-content-between">
-                        <span>Building Fund</span>
+                        <span>{% trans "Building Fund" %}</span>
                         <span>75%</span>
                     </h5>
                     <div class="progress" style="height: 10px;">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <p class="text-muted small mt-2">Raised: TZS 15,000,000 of TZS 20,000,000</p>
+                    <p class="text-muted small mt-2">{% trans "Raised" %}: TZS 15,000,000 {% trans "of" %} TZS 20,000,000</p>
                 </div>
                 
                 <div class="giving-options mb-4">
-                    <h5 class="mb-3">Ways to Give:</h5>
+                    <h5 class="mb-3">{% trans "Ways to Give" %}:</h5>
                     <div class="row g-2">
                         <div class="col-6">
                             <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
                                 <i class="fas fa-mobile-alt fa-2x text-primary me-3"></i>
                                 <div>
-                                    <h6 class="mb-0">Mobile Money</h6>
+                                    <h6 class="mb-0">{% trans "Mobile Money" %}</h6>
                                     <small class="text-muted">M-Pesa, Tigo Pesa, Airtel Money</small>
                                 </div>
                             </div>
@@ -376,7 +380,7 @@
                             <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
                                 <i class="fas fa-university fa-2x text-primary me-3"></i>
                                 <div>
-                                    <h6 class="mb-0">Bank Transfer</h6>
+                                    <h6 class="mb-0">{% trans "Bank Transfer" %}</h6>
                                     <small class="text-muted">CRDB, NMB, NBC</small>
                                 </div>
                             </div>
@@ -385,7 +389,7 @@
                             <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
                                 <i class="fas fa-credit-card fa-2x text-primary me-3"></i>
                                 <div>
-                                    <h6 class="mb-0">Credit Card</h6>
+                                    <h6 class="mb-0">{% trans "Credit Card" %}</h6>
                                     <small class="text-muted">Visa, Mastercard</small>
                                 </div>
                             </div>
@@ -394,8 +398,8 @@
                             <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
                                 <i class="fas fa-hand-holding-usd fa-2x text-primary me-3"></i>
                                 <div>
-                                    <h6 class="mb-0">In Person</h6>
-                                    <small class="text-muted">At our church office</small>
+                                    <h6 class="mb-0">{% trans "In Person" %}</h6>
+                                    <small class="text-muted">{% trans "At our church office" %}</small>
                                 </div>
                             </div>
                         </div>
@@ -403,7 +407,7 @@
                 </div>
                 
                 <a href="{% url 'donation' %}" class="btn btn-primary btn-lg w-100 rounded-pill shadow">
-                    <i class="fas fa-donate me-2"></i> Give Online Now
+                    <i class="fas fa-donate me-2"></i> {% trans "Give Online Now" %}
                 </a>
             </div>
         </div>
@@ -415,18 +419,18 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center">
-                <h2 class="mb-4">Stay Connected</h2>
-                <p class="lead mb-5">Subscribe to our newsletter for weekly updates and spiritual nourishment</p>
+                <h2 class="mb-4">{% trans "Stay Connected" %}</h2>
+                <p class="lead mb-5">{% trans "Subscribe to our newsletter for weekly updates and spiritual nourishment" %}</p>
                 
                 <form class="newsletter-form">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control form-control-lg" placeholder="Your email address" required>
-                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                        <input type="email" class="form-control form-control-lg" placeholder="{% trans 'Your email address' %}" required>
+                        <button class="btn btn-primary" type="submit">{% trans "Subscribe" %}</button>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="consentCheck" required>
                         <label class="form-check-label small" for="consentCheck">
-                            I agree to receive emails from Mountain of Fire Church
+                            {% trans "I agree to receive emails from Mountain of Fire Church" %}
                         </label>
                     </div>
                 </form>
@@ -434,6 +438,7 @@
         </div>
     </div>
 </section>
+
 {% endblock %}
 
 {% block extra_js %}

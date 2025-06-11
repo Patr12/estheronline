@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
-
+{% load i18n %}
 {% block content %}
 <style>
     /* Google Fonts */
@@ -175,7 +175,7 @@
         <!-- Logo ya System (Badilisha src kwa path ya logo yako) -->
         <div class="logo-container">
             <img src="{% static 'main/images/WhatsApp Image 2025-05-01 at 13.12.15.jpeg' %}" alt="OnlineEater Logo" class="login-logo">
-            <h2>Ingia kwa Akaunti Yako</h2>
+            <h2>{% trans "Login to your Account." %}</h2>
         </div>
 
         <!-- Ujumbe wa Makosa -->
@@ -190,7 +190,7 @@
         <!-- Fomu ya Login -->
        
             
-            <h2>Login</h2>
+            <h2>{% trans "Login" %}</h2>
     {% for message in messages %}
         <p style="color:red;">{{ message }}</p>
     {% endfor %}
@@ -201,20 +201,20 @@
         <label>Password:</label><br>
         <input type="password" name="password"><br><br>
           <!-- Submit Button -->
-        <button type="submit" class="login-btn"> <i class="fas fa-sign-in-alt"></i>Ingia</button>
+        <button type="submit" class="login-btn"> <i class="fas fa-sign-in-alt"></i>Login</button>
     </form>
-    <p>Huna akaunti? <a href="{% url 'register' %}">Jisajili</a></p>
+    <p>{% trans "Don't have an account.?" %}<a href="{% url 'register' %}">{% trans "Register here!" %}</a></p>
 
             <!-- Remember Me & Forgot Password -->
             <div class="form-options">
                 <label class="remember-me">
-                    <input type="checkbox" name="remember"> Nikumbuke
+                    <input type="checkbox" name="remember"> {% trans "Remember me!" %}
                 </label>
-                <a href="{% url 'password_reset' %}" class="forgot-password">Umesahau nenosiri?</a>
+                <a href="{% url 'password_reset' %}" class="forgot-password">{% trans "Your foget a password.?" %}</a>
             </div>
             <!-- Link kwa Ajili ya Kujiunga -->
             <div class="signup-link">
-                Huna akaunti? <a href="{% url 'register' %}">Jiunge sasa</a>
+                Huna akaunti? <a href="{% url 'register' %}">{% trans "Register Now" %}</a>
             </div>
         </form>
     </div>

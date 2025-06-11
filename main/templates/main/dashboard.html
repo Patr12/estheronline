@@ -1,5 +1,6 @@
-<!-- templates/main/dashboard.html -->
 {% extends 'main/base.html' %}
+
+{% load i18n %}
 
 {% block content %}
 <div class="container mt-4">
@@ -8,7 +9,7 @@
         <div class="col-md-3 mb-4">
             <div class="card stat-card">
                 <div class="card-body">
-                    <h5 class="card-title">Upcoming Events</h5>
+                    <h5 class="card-title">{% trans "Upcoming Events" %}</h5>
                     <h2 class="stat-number">{{ upcoming_events_count }}</h2>
                 </div>
             </div>
@@ -17,7 +18,7 @@
         <div class="col-md-3 mb-4">
             <div class="card stat-card">
                 <div class="card-body">
-                    <h5 class="card-title">Recent Donations</h5>
+                    <h5 class="card-title">{% trans "Recent Donations" %}</h5>
                     <h2 class="stat-number">TZS {{ recent_donations_total }}</h2>
                 </div>
             </div>
@@ -27,7 +28,7 @@
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-header">
-                    <h5>Today's Schedule</h5>
+                    <h5>{% trans "Today's Schedule" %}</h5>
                 </div>
                 <div class="card-body">
                     {% if todays_schedule %}
@@ -40,7 +41,7 @@
                         {% endfor %}
                     </ul>
                     {% else %}
-                    <p>No scheduled activities for today</p>
+                    <p>{% trans "No scheduled activities for today" %}</p>
                     {% endif %}
                 </div>
             </div>
@@ -52,17 +53,17 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>Latest Teachings</h5>
-                    <a href="{% url 'teachings' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                    <h5>{% trans "Latest Teachings" %}</h5>
+                    <a href="{% url 'teachings' %}" class="btn btn-sm btn-outline-primary">{% trans "View All" %}</a>
                 </div>
                 <div class="card-body">
                     {% for teaching in recent_teachings %}
                     <div class="teaching-item mb-3">
                         <h6>{{ teaching.title }}</h6>
-                        <small class="text-muted">By {{ teaching.preacher }} | {{ teaching.teaching_date }}</small>
+                        <small class="text-muted">{% blocktrans %}By {{ teaching.preacher }} | {{ teaching.teaching_date }}{% endblocktrans %}</small>
                         <audio controls class="w-100 mt-2" style="height: 40px;">
                             <source src="{{ teaching.media_file.url }}" type="audio/mpeg">
-                            Your browser does not support the audio element.
+                            {% trans "Your browser does not support the audio element." %}
                         </audio>
                     </div>
                     {% endfor %}
@@ -73,14 +74,14 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>Upcoming Events</h5>
-                    <a href="{% url 'events' %}" class="btn btn-sm btn-outline-primary">View All</a>
+                    <h5>{% trans "Upcoming Events" %}</h5>
+                    <a href="{% url 'events' %}" class="btn btn-sm btn-outline-primary">{% trans "View All" %}</a>
                 </div>
                 <div class="card-body">
                     {% for event in upcoming_events %}
                     <div class="event-item mb-3 pb-2 border-bottom">
                         <h6>{{ event.title }}</h6>
-                        <small class="text-muted">{{ event.date }} | {{ event.description|truncatechars:60 }}</small>
+                        <small class="text-muted">{{ event.date|date:"M d, Y" }} | {{ event.description|truncatechars:60 }}</small>
                     </div>
                     {% endfor %}
                 </div>

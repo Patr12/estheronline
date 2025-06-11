@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load i18n %}
 {% load widget_tweaks %}
 
 {% block content %}
@@ -357,11 +358,10 @@
         <!-- System Logo -->
         <div class="logo-container">
             <img src="{% static 'main/images/WhatsApp Image 2025-05-01 at 13.12.12.jpeg' %}" alt="System Logo" class="auth-logo">
-            <h2 class="auth-title">Jisajili Akaunti Mpya</h2>
-            <p class="auth-subtitle">Jaza taarifa zako kwa usahihi</p>
+            <h2 class="auth-title">{% trans "Register New Account" %}</h2>
+            <p class="auth-subtitle">{% trans "Fill in your details accurately" %}</p>
         </div>
 
-        <!-- Success/Error Messages -->
         {% if messages %}
         <div class="message-container">
             {% for message in messages %}
@@ -376,49 +376,48 @@
         <form method="POST" class="auth-form" novalidate>
             {% csrf_token %}
             
-            <!-- Username Field -->
-           <!-- Add this field with the other form fields -->
-<div class="form-group" style="--order: 1;">
-    <label for="id_full_name" class="form-label">Jina Kamili</label>
-    <div class="input-with-icon">
-        <i class="fas fa-user"></i>
-        <input type="text" name="full_name" id="id_full_name" class="form-control" placeholder="Weka jina lako kamili" required>
-    </div>
-    {% if form.full_name.errors %}
-        <div class="error-text">{{ form.full_name.errors }}</div>
-    {% endif %}
-</div>
-            
-            <!-- Email Field -->
+            <!-- Full Name -->
+            <div class="form-group" style="--order: 1;">
+                <label for="id_full_name" class="form-label">{% trans "Full Name" %}</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="full_name" id="id_full_name" class="form-control" placeholder="{% trans 'Enter your full name' %}" required>
+                </div>
+                {% if form.full_name.errors %}
+                    <div class="error-text">{{ form.full_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
             <div class="form-group" style="--order: 2;">
-                <label for="id_email" class="form-label">Barua Pepe</label>
+                <label for="id_email" class="form-label">{% trans "Email" %}</label>
                 <div class="input-with-icon">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" name="email" id="id_email" class="form-control" placeholder="Weka barua pepe yako" required>
+                    <input type="email" name="email" id="id_email" class="form-control" placeholder="{% trans 'Enter your email' %}" required>
                 </div>
                 {% if form.email.errors %}
                     <div class="error-text">{{ form.email.errors }}</div>
                 {% endif %}
             </div>
-            
-            <!-- Password Field -->
+
+            <!-- Password -->
             <div class="form-group" style="--order: 3;">
-                <label for="id_password1" class="form-label">Nenosiri</label>
+                <label for="id_password1" class="form-label">{% trans "Password" %}</label>
                 <div class="input-with-icon">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password1" id="id_password1" class="form-control" placeholder="Weka nenosiri lako" required>
+                    <input type="password" name="password1" id="id_password1" class="form-control" placeholder="{% trans 'Enter your password' %}" required>
                 </div>
                 <div class="password-strength">
                     <div class="strength-meter">
                         <span class="strength-bar"></span>
                     </div>
                     <div class="password-hints">
-                        <p>Nenosiri lazima liwe na:</p>
+                        <p>{% trans "Password must include:" %}</p>
                         <ul>
-                            <li class="length-check">Herufi 8 au zaidi</li>
-                            <li class="number-check">Nambari angalau 1</li>
-                            <li class="uppercase-check">Herufi kubwa angalau 1</li>
-                            <li class="special-check">Alama maalum angalau 1</li>
+                            <li class="length-check">{% trans "At least 8 characters" %}</li>
+                            <li class="number-check">{% trans "At least 1 number" %}</li>
+                            <li class="uppercase-check">{% trans "At least 1 uppercase letter" %}</li>
+                            <li class="special-check">{% trans "At least 1 special character" %}</li>
                         </ul>
                     </div>
                 </div>
@@ -426,41 +425,42 @@
                     <div class="error-text">{{ form.password1.errors }}</div>
                 {% endif %}
             </div>
-            
-            <!-- Confirm Password Field -->
+
+            <!-- Confirm Password -->
             <div class="form-group" style="--order: 4;">
-                <label for="id_password2" class="form-label">Thibitisha Nenosiri</label>
+                <label for="id_password2" class="form-label">{% trans "Confirm Password" %}</label>
                 <div class="input-with-icon">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Rudia nenosiri lako" required>
+                    <input type="password" name="password2" id="id_password2" class="form-control" placeholder="{% trans 'Re-enter your password' %}" required>
                 </div>
                 {% if form.password2.errors %}
                     <div class="error-text">{{ form.password2.errors }}</div>
                 {% endif %}
             </div>
-            
-            <!-- Terms and Conditions -->
+
+            <!-- Terms -->
             <div class="form-group terms-group" style="--order: 5;">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="termsCheck" required>
                     <label class="form-check-label" for="termsCheck">
-                        Nakubali <a href="#" class="terms-link">Sheria na Masharti</a>
+                        {% blocktrans %}I agree to the <a href="#" class="terms-link">Terms and Conditions</a>{% endblocktrans %}
                     </label>
                 </div>
             </div>
-            
-            <!-- Submit Button -->
+
+            <!-- Submit -->
             <button type="submit" class="auth-btn" style="--order: 6;">
-                <i class="fas fa-user-plus"></i> Jisajili
+                <i class="fas fa-user-plus"></i> {% trans "Register" %}
             </button>
-            
-            <!-- Login Link -->
+
+            <!-- Footer -->
             <p class="auth-footer">
-                Tayari una akaunti? <a href="{% url 'login_view' %}" class="auth-link">Ingia hapa</a>
+                {% trans "Already have an account?" %} <a href="{% url 'login_view' %}" class="auth-link">{% trans "Log in here" %}</a>
             </p>
         </form>
     </div>
 </div>
+
 <!-- Font Awesome for Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
