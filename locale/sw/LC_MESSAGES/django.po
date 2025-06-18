@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-11 11:55+0300\n"
+"POT-Creation-Date: 2025-06-18 10:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -343,12 +343,12 @@ msgid "by MFC Tech Team"
 msgstr "na Timu ya Teknolojia ya MFC"
 
 #: main/templates/main/blog.html:6
-msgid "Spiritual Blog"
-msgstr "Blogu za Kiroho"
+msgid "Blog za Kiroho"
+msgstr ""
 
 #: main/templates/main/blog.html:21
-msgid "No Blog Found."
-msgstr "Hakuna blogu zilizopatikana kwa sasa."
+msgid "Hakuna blogu zilizopatikana kwa sasa."
+msgstr ""
 
 #: main/templates/main/chat.html:11
 msgid "New Group"
@@ -1163,6 +1163,28 @@ msgstr ""
 #: main/templates/main/teachings.html:114
 msgid "Next"
 msgstr "Inayofuata"
+
+#: main/views.py:51
+#, fuzzy
+#| msgid "Re-enter your password"
+msgid "Please enter your email and password"
+msgstr "Weka tena nenosiri lako"
+
+#: main/views.py:106
+msgid "You have been logged out"
+msgstr ""
+
+#: main/views.py:232
+msgid "Thank you for your donation!"
+msgstr ""
+
+#: main/views.py:272
+msgid "Donation not found or you don't have permission to view it."
+msgstr ""
+
+#: main/views.py:284
+msgid "Donation updated successfully!"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/click/_termui_impl.py:556
 #, python-brace-format
@@ -2653,3 +2675,9 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "Spiritual Blog"
+#~ msgstr "Blogu za Kiroho"
+
+#~ msgid "No Blog Found."
+#~ msgstr "Hakuna blogu zilizopatikana kwa sasa."

@@ -20,7 +20,7 @@ msgstr ""
 
 #: main/models.py:12
 msgid "The Email must be set"
-msgstr ""
+msgstr "emaillazima iudwe"
 
 #: main/models.py:25
 msgid "Superuser must have is_staff=True."
@@ -32,59 +32,59 @@ msgstr ""
 
 #: main/models.py:42
 msgid "email address"
-msgstr ""
+msgstr "anuani ya email"
 
 #: main/models.py:43
 msgid "full name"
-msgstr ""
+msgstr "jina kamili"
 
 #: main/models.py:57
 msgid "user"
-msgstr ""
+msgstr "mtumiaji"
 
 #: main/models.py:58
 msgid "users"
-msgstr ""
+msgstr "mtumiaji"
 
 #: main/models.py:98
 msgid "schedule"
-msgstr ""
+msgstr "ratiba"
 
 #: main/models.py:99
 msgid "schedules"
-msgstr ""
+msgstr "ratiba"
 
 #: main/models.py:136
 msgid "donation"
-msgstr ""
+msgstr sadaka""
 
 #: main/models.py:137
 msgid "donations"
-msgstr ""
+msgstr "sadaka"
 
 #: main/models.py:158
 msgid "event"
-msgstr ""
+msgstr "tukio"
 
 #: main/models.py:159
 msgid "events"
-msgstr ""
+msgstr "matukio"
 
 #: main/models.py:176
 msgid "event attendance"
-msgstr ""
+msgstr "mahudhurio ya tukio"
 
 #: main/models.py:177
 msgid "event attendances"
-msgstr ""
+msgstr "mahudhurio ya matukio"
 
 #: main/models.py:196
 msgid "blog"
-msgstr ""
+msgstr "blogu"
 
 #: main/models.py:197
 msgid "blogs"
-msgstr ""
+msgstr "blogu"
 
 #: main/models.py:225
 msgid "subscriber"
@@ -96,27 +96,27 @@ msgstr ""
 
 #: main/models.py:253
 msgid "teaching"
-msgstr ""
+msgstr "mafundisho"
 
 #: main/models.py:254
 msgid "teachings"
-msgstr ""
+msgstr "mafundisho"
 
 #: main/models.py:278
 msgid "message"
-msgstr ""
+msgstr "meseji"
 
 #: main/models.py:279
 msgid "messages"
-msgstr ""
+msgstr "meseji"
 
 #: main/models.py:296
 msgid "chat group"
-msgstr ""
+msgstr "kundi la kuchati"
 
 #: main/models.py:297
 msgid "chat groups"
-msgstr ""
+msgstr "makudi ya kuchati"
 
 #: main/models.py:320
 msgid "group membership"
@@ -128,11 +128,11 @@ msgstr ""
 
 #: main/models.py:339
 msgid "group message"
-msgstr ""
+msgstr "kundi la meseji"
 
 #: main/models.py:340
 msgid "group messages"
-msgstr ""
+msgstr "makundi yameseji"
 
 #: main/templates/main/add_donation.html:5
 #: main/templates/main/donation_list.html:13
@@ -735,7 +735,7 @@ msgstr "Wewe ndiye msimamizi pekee. Ukiondoka, kundi litafutwa."
 
 #: main/templates/main/home.html:20
 msgid "Welcome to Mountain of Fire Church"
-msgstr "Karibu Kanisa la Mountain of Fire"
+msgstr "Karibu Kanisa la Mlima wa moto"
 
 #: main/templates/main/home.html:21
 msgid "A place of worship, fellowship and spiritual growth"
@@ -1158,211 +1158,211 @@ msgstr "Hakuna Mafundisho Yanayoendana na changu."
 
 #: main/templates/main/teachings.html:102
 msgid "Previous"
-msgstr ""
+msgstr "iliyopita"
 
 #: main/templates/main/teachings.html:114
 msgid "Next"
-msgstr ""
+msgstr "inayofuata"
 
 
 #: venv/lib/python3.12/site-packages/click/_termui_impl.py:556
 #, python-brace-format
 msgid "{editor}: Editing failed"
-msgstr ""
+msgstr "mabadiliko hayajafanikiwa"
 
 #: venv/lib/python3.12/site-packages/click/_termui_impl.py:560
 #, python-brace-format
 msgid "{editor}: Editing failed: {e}"
-msgstr ""
+msgstr "mabadiliko hayajafanikiwa"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1124
 msgid "Aborted!"
-msgstr ""
+msgstr "imesitishwa"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1349
 #: venv/lib/python3.12/site-packages/click/core.py:1379
 #, python-brace-format
 msgid "(Deprecated) {text}"
-msgstr ""
+msgstr "kimekataliwa"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1396
 msgid "Options"
-msgstr ""
+msgstr "machaguo"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1422
 #, python-brace-format
 msgid "Got unexpected extra argument ({args})"
 msgid_plural "Got unexpected extra arguments ({args})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "imepokelewa hoja ya ziada isiyo tegemewa"
+msgstr[1] "zimepokelewa hoja za ziada zisizo tegemewa"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1438
 msgid "DeprecationWarning: The command {name!r} is deprecated."
-msgstr ""
+msgstr "tahadhali iliyo pitwa na wakati:amri hii haipendekezwi tena kutumika"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1645
 msgid "Commands"
-msgstr ""
+msgstr "amri"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1677
 msgid "Missing command."
-msgstr ""
+msgstr "amri inayokosekana"
 
 #: venv/lib/python3.12/site-packages/click/core.py:1755
 msgid "No such command {name!r}."
-msgstr ""
+msgstr "hakuna amri kama hiyo"
 
 #: venv/lib/python3.12/site-packages/click/core.py:2313
 msgid "Value must be an iterable."
-msgstr ""
+msgstr "thamani lazima iwe inayoweza kuzunguliwa"
 
 #: venv/lib/python3.12/site-packages/click/core.py:2334
 #, python-brace-format
 msgid "Takes {nargs} values but 1 was given."
 msgid_plural "Takes {nargs} values but {len} were given."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "inahitajika thamani zaidi ya moja,lakini moja tu ndo imetolewa"
+msgstr[1] "zinahitajika thamani, lakini baadhi zilitolewa"
 
 #: venv/lib/python3.12/site-packages/click/core.py:2783
 #, python-brace-format
 msgid "env var: {var}"
-msgstr ""
+msgstr "mabadiliko ya mazingira"
 
 #: venv/lib/python3.12/site-packages/click/core.py:2813
 msgid "(dynamic)"
-msgstr ""
+msgstr "inayobadilika"
 
 #: venv/lib/python3.12/site-packages/click/core.py:2828
 #, python-brace-format
 msgid "default: {default}"
-msgstr ""
+msgstr "chaguo la awali"
 
 #: venv/lib/python3.12/site-packages/click/core.py:2841
 msgid "required"
-msgstr ""
+msgstr "inayohitajika"
 
 #: venv/lib/python3.12/site-packages/click/decorators.py:457
 #, python-format
 msgid "%(prog)s, version %(version)s"
-msgstr ""
+msgstr "toleo"
 
 #: venv/lib/python3.12/site-packages/click/decorators.py:520
 msgid "Show the version and exit."
-msgstr ""
+msgstr "onyesha toleo na ondoka"
 
 #: venv/lib/python3.12/site-packages/click/decorators.py:541
 msgid "Show this message and exit."
-msgstr ""
+msgstr "onyosha meseji hii na ondoka"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:49
 #: venv/lib/python3.12/site-packages/click/exceptions.py:88
 #, python-brace-format
 msgid "Error: {message}"
-msgstr ""
+msgstr "hitilafu {meseji}"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:80
 #, python-brace-format
 msgid "Try '{command} {option}' for help."
-msgstr ""
+msgstr "jaribu'{amri}{chaguo}'kwa msaada."
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:129
 #, python-brace-format
 msgid "Invalid value: {message}"
-msgstr ""
+msgstr "thamani isiyo sahihi:{meseji}"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:131
 #, python-brace-format
 msgid "Invalid value for {param_hint}: {message}"
-msgstr ""
+msgstr "thamani isiyo sahihi kwa {mwongozo wa parameta}:{meseji}"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:187
 msgid "Missing argument"
-msgstr ""
+msgstr "hoja inayokosekana"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:189
 msgid "Missing option"
-msgstr ""
+msgstr "chaguo lililokosekana"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:191
 msgid "Missing parameter"
-msgstr ""
+msgstr "parameta iliyokosekana"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:193
 #, python-brace-format
 msgid "Missing {param_type}"
-msgstr ""
+msgstr "inayokosekana{aina ya parameta}"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:200
 #, python-brace-format
 msgid "Missing parameter: {param_name}"
-msgstr ""
+msgstr "parameta inayokosekana:{jina la parameta}"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:220
 #, python-brace-format
 msgid "No such option: {name}"
-msgstr ""
+msgstr "hakuna chaguo kama hilo{jina}"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:232
 #, python-brace-format
 msgid "Did you mean {possibility}?"
 msgid_plural "(Possible options: {possibilities})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "unamaanisha{uwezekano}"
+msgstr[1] " machaguo yanayowezekana:{uwezekano}"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:270
 msgid "unknown error"
-msgstr ""
+msgstr "hitilafu isiyojulikana"
 
 #: venv/lib/python3.12/site-packages/click/exceptions.py:277
 msgid "Could not open file {filename!r}: {message}"
-msgstr ""
+msgstr "haikuweza kufungua faili{jina la faili:{meseji}}"
 
 #: venv/lib/python3.12/site-packages/click/parser.py:233
 msgid "Argument {name!r} takes {nargs} values."
-msgstr ""
+msgstr "hoja{jina} chukua thamani."
 
 #: venv/lib/python3.12/site-packages/click/parser.py:415
 msgid "Option {name!r} does not take a value."
-msgstr ""
+msgstr "chaguo{jina}haichukui thamani."
 
 #: venv/lib/python3.12/site-packages/click/parser.py:476
 msgid "Option {name!r} requires an argument."
 msgid_plural "Option {name!r} requires {nargs} arguments."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "chaguo{jina}linahitaji hoja."
+msgstr[1] "machaguo {majina}yanahitaji hoja."
 
 #: venv/lib/python3.12/site-packages/click/shell_completion.py:326
 msgid "Shell completion is not supported for Bash versions older than 4.4."
-msgstr ""
+msgstr "kipengele cha kukakimilisha amri kiotomatiki hakipatikani kwenye toleo lako. Tafadhili sahihisha hadi toleo la 4.4 au juu zaidi ili kutumia huduma hii"
 
 #: venv/lib/python3.12/site-packages/click/shell_completion.py:333
 msgid "Couldn't detect Bash version, shell completion is not supported."
-msgstr ""
+msgstr "toleo la bash halijabainika hivo uwezo wa kukamilisha amri haupatikani"
 
 #: venv/lib/python3.12/site-packages/click/termui.py:158
 msgid "Repeat for confirmation"
-msgstr ""
+msgstr "ruia kwa ajili ya kuhakiki"
 
 #: venv/lib/python3.12/site-packages/click/termui.py:174
 msgid "Error: The value you entered was invalid."
-msgstr ""
+msgstr "Hitilafu: thamani uliyoingiza sio sahihi"
 
 #: venv/lib/python3.12/site-packages/click/termui.py:176
 #, python-brace-format
 msgid "Error: {e.message}"
-msgstr ""
+msgstr "Hitilafu: {e.meseji}"
 
 #: venv/lib/python3.12/site-packages/click/termui.py:187
 msgid "Error: The two entered values do not match."
-msgstr ""
+msgstr "Hitilafu: Thamani mbili ulizoingiza hazifanani"
 
 #: venv/lib/python3.12/site-packages/click/termui.py:243
 msgid "Error: invalid input"
-msgstr ""
+msgstr "Hitilafu: ingizo si sahihi"
 
 #: venv/lib/python3.12/site-packages/click/termui.py:773
 msgid "Press any key to continue..."
-msgstr ""
+msgstr "bonyeza kitufe chochote kuendelea"
 
 #: venv/lib/python3.12/site-packages/click/types.py:267
 #, python-brace-format
@@ -1374,59 +1374,59 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/click/types.py:299
 msgid "{value!r} is not {choice}."
 msgid_plural "{value!r} is not one of {choices}."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{thamani} sio {chaguo}"
+msgstr[1] "{thamani} sio moja ya {machaguo}"
 
 #: venv/lib/python3.12/site-packages/click/types.py:393
 msgid "{value!r} does not match the format {format}."
 msgid_plural "{value!r} does not match the formats {formats}."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{thamani} haifanani na mpangilio {mpangilio}"
+msgstr[1] "{thamani} hazifanani na mipangilio {mipangilio}"
 
 #: venv/lib/python3.12/site-packages/click/types.py:415
 msgid "{value!r} is not a valid {number_type}."
-msgstr ""
+msgstr "{thamani} sio sahihi{aina ya namba}"
 
 #: venv/lib/python3.12/site-packages/click/types.py:471
 #, python-brace-format
 msgid "{value} is not in the range {range}."
-msgstr ""
+msgstr "{thamani} sio ya kwenye makadirio {makadirio}"
 
 #: venv/lib/python3.12/site-packages/click/types.py:612
 msgid "{value!r} is not a valid boolean."
-msgstr ""
+msgstr "{thamani} sio data ya kweli"
 
 #: venv/lib/python3.12/site-packages/click/types.py:636
 msgid "{value!r} is not a valid UUID."
-msgstr ""
+msgstr "{thamani} sio UUID sahihi"
 
 #: venv/lib/python3.12/site-packages/click/types.py:826
 msgid "file"
-msgstr ""
+msgstr "faili"
 
 #: venv/lib/python3.12/site-packages/click/types.py:828
 msgid "directory"
-msgstr ""
+msgstr "muelekeo"
 
 #: venv/lib/python3.12/site-packages/click/types.py:830
 msgid "path"
-msgstr ""
+msgstr "njia"
 
 #: venv/lib/python3.12/site-packages/click/types.py:881
 msgid "{name} {filename!r} does not exist."
-msgstr ""
+msgstr "{jina} {jina la faili} halipo."
 
 #: venv/lib/python3.12/site-packages/click/types.py:890
 msgid "{name} {filename!r} is a file."
-msgstr ""
+msgstr "{jina}{jina la faili} ni faili."
 
 #: venv/lib/python3.12/site-packages/click/types.py:898
 msgid "{name} {filename!r} is a directory."
-msgstr ""
+msgstr "{jina} {jina la falili} ni muelekeo"
 
 #: venv/lib/python3.12/site-packages/click/types.py:907
 msgid "{name} {filename!r} is not readable."
-msgstr ""
+msgstr "{jina}{jina la faili} halisomeki."
 
 #: venv/lib/python3.12/site-packages/click/types.py:916
 msgid "{name} {filename!r} is not writable."
@@ -1445,11 +1445,11 @@ msgstr[1] ""
 
 #: venv/lib/python3.12/site-packages/django/contrib/sitemaps/apps.py:8
 msgid "Site Maps"
-msgstr ""
+msgstr "ramani ya mahali"
 
 #: venv/lib/python3.12/site-packages/django/contrib/staticfiles/apps.py:9
 msgid "Static Files"
-msgstr ""
+msgstr "mafail"
 
 #: venv/lib/python3.12/site-packages/django/contrib/syndication/apps.py:7
 msgid "Syndication"
@@ -1463,28 +1463,28 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:32
 msgid "That page number is not an integer"
-msgstr ""
+msgstr "namba ya huoukrasa sio"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:33
 msgid "That page number is less than 1"
-msgstr ""
+msgstr "namba ya huoukrasa sio" chini ya moja"
 
 #: venv/lib/python3.12/site-packages/django/core/paginator.py:34
 msgid "That page contains no results"
-msgstr ""
+msgstr "ukrasa hauna matokeo"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:22
 msgid "Enter a valid value."
-msgstr ""
+msgstr "ingiza namba sahii"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:70
 msgid "Enter a valid domain name."
-msgstr ""
+msgstr "ingiza amba ya domeini sahihi"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:153
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:775
 msgid "Enter a valid URL."
-msgstr ""
+msgstr "ingiza URL sahihi"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:200
 msgid "Enter a valid integer."
@@ -1492,7 +1492,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:211
 msgid "Enter a valid email address."
-msgstr ""
+msgstr "ingiza email sahihi"
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: venv/lib/python3.12/site-packages/django/core/validators.py:289
@@ -1516,16 +1516,16 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:311
 msgid "IPv4"
-msgstr ""
+msgstr "IPv4"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:320
 #: venv/lib/python3.12/site-packages/django/utils/ipv6.py:43
 msgid "IPv6"
-msgstr ""
+msgstr "IPv6"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:334
 msgid "IPv4 or IPv6"
-msgstr ""
+msgstr "IPv4 or IPv6"
 
 #: venv/lib/python3.12/site-packages/django/core/validators.py:375
 msgid "Enter only digits separated by commas."
@@ -1856,11 +1856,11 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:244
 msgid "File"
-msgstr ""
+msgstr "faili"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/files.py:420
 msgid "Image"
-msgstr ""
+msgstr "picha"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:24
 msgid "A JSON object"
@@ -1868,7 +1868,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/json.py:26
 msgid "Value must be valid JSON."
-msgstr ""
+msgstr "thamani lazima iwe JSON sahihi"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:978
 #, python-format
@@ -1881,7 +1881,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1275
 msgid "One-to-one relationship"
-msgstr ""
+msgstr "mahusiano ya moja kwa moja"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/related.py:1332
 #, python-format
@@ -1909,30 +1909,30 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:315
 msgid "Enter a whole number."
-msgstr ""
+msgstr "ingiza namba yote"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:486
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1267
 msgid "Enter a valid date."
-msgstr ""
+msgstr "ingiza tarehe sahihi"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:509
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:1268
 msgid "Enter a valid time."
-msgstr ""
+msgstr "ingiza muda sahihi"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:536
 msgid "Enter a valid date/time."
-msgstr ""
+msgstr "ingiza siku au muda sahihi"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:570
 msgid "Enter a valid duration."
-msgstr ""
+msgstr "ingiza wakati sahihi"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:571
 #, python-brace-format
 msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
+msgstr "namba za siku lazima ziwe kati ya {}"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:640
 msgid "No file was submitted. Check the encoding type on the form."
@@ -1940,11 +1940,11 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:641
 msgid "No file was submitted."
-msgstr ""
+msgstr "hakuna faili limekusanywa"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:642
 msgid "The submitted file is empty."
-msgstr ""
+msgstr "faili lililokusanywa liko tupu"
 
 #: venv/lib/python3.12/site-packages/django/forms/fields.py:644
 #, python-format
@@ -2426,7 +2426,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/ipv6.py:20
 msgid "This is not a valid IPv6 address."
-msgstr ""
+msgstr "Hii sio IPv6 anuani sahihi"
 
 #: venv/lib/python3.12/site-packages/django/utils/text.py:67
 #, python-format
@@ -2436,7 +2436,7 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/utils/text.py:278
 msgid "or"
-msgstr ""
+msgstr "au"
 
 #. Translators: This string is used as a separator between list elements
 #: venv/lib/python3.12/site-packages/django/utils/text.py:297
@@ -2448,8 +2448,8 @@ msgstr ""
 #, python-format
 msgid "%(num)d year"
 msgid_plural "%(num)d years"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(namba)d mwaka"
+msgstr[1] "%(namba)d miaka"
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:9
 #, python-format
@@ -2469,22 +2469,22 @@ msgstr[1] ""
 #, python-format
 msgid "%(num)d day"
 msgid_plural "%(num)d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(num)d siku"
+msgstr[1] "%(num)d siku"%(num)d days""
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:12
 #, python-format
 msgid "%(num)d hour"
 msgid_plural "%(num)d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0]  "%(namba)d lisaa"
+msgstr[1] "%(namba)d masaa"
 
 #: venv/lib/python3.12/site-packages/django/utils/timesince.py:13
 #, python-format
 msgid "%(num)d minute"
 msgid_plural "%(num)d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(namba)d dakika"
+msgstr[1] "%(namba)d dakika"
 
 #: venv/lib/python3.12/site-packages/django/views/csrf.py:29
 msgid "Forbidden"
@@ -2633,24 +2633,24 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:217
 msgid "Django Documentation"
-msgstr ""
+msgstr "muktadha kwa kutumia Djangle"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:218
 msgid "Topics, references, &amp; how-to’s"
-msgstr ""
+msgstr "mada,marejeo,na "
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:226
 msgid "Tutorial: A Polling App"
-msgstr ""
+msgstr "mafunzo;pr0gramu ya kupiga kura"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:227
 msgid "Get started with Django"
-msgstr ""
+msgstr "Anza na Django"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:235
 msgid "Django Community"
-msgstr ""
+msgstr "jamii ya Django"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
-msgstr ""
+msgstr "unganisha,pata msaada au changia"

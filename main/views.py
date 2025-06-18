@@ -103,7 +103,7 @@ def profile_view(request):
 
 def logout_view(request):
     logout(request)
-    messages.info(request, 'You have been logged out')
+    messages.info(request, _('You have been logged out'))
     return redirect('login_view')
 
 # Main Views
@@ -229,8 +229,7 @@ def donation_view(request):
             with transaction.atomic():
                 donation = form.save(commit=False)
                 donation.donor = request.user
-                donation.save()
-            messages.success(request, 'Thank you for your donation!')
+            messages.success(request, _('Thank you for your donation!'))
             return redirect('donation-list')
     else:
         form = DonationForm(user=request.user)
